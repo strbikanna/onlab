@@ -1,14 +1,80 @@
-.gradle
-/build/
+# Gradle files
+AndroidWallet/.gradle/
+AndroidWallet/build/
+AndroidWallet/app/build/
 
-# Ignore Gradle GUI config
-gradle-app.setting
+# Local configuration file (sdk path, etc)
+AndroidWallet/local.properties
 
-# Avoid ignoring Gradle wrapper jar file (.jar files are usually ignored)
-!gradle-wrapper.jar
+# Log/OS Files
+*.log
 
-# Cache of project
-.gradletasknamecache
+# Android Studio generated files and folders
+#.externalNativeBuild/
+#.cxx/
+#output.json
+AndroidWallet/bin/
+AndroidWallet/gen/
+AndroidWallet/out/
 
-# # Work around https://youtrack.jetbrains.com/issue/IDEA-116898
-# gradle/wrapper/gradle-wrapper.properties
+# Android Studio Navigation editor temp files
+AndroidWallet/.navigation/ 
+
+# Android Studio captures folder
+AndroidWallet/captures/
+
+# Built application files
+*.apk
+*.aar
+*.ap_
+*.aab
+
+# IntelliJ
+*.iml
+#.idea/
+AndroidWallet/.idea/workspace.xml
+AndroidWallet/.idea/tasks.xml
+AndroidWallet/.idea/gradle.xml
+AndroidWallet/.idea/assetWizardSettings.xml
+AndroidWallet/.idea/dictionaries
+AndroidWallet/.idea/libraries
+
+# Android Studio 3 in .gitignore file
+AndroidWallet/.idea/caches
+AndroidWallet/.idea/modules.xml
+
+# External native build folder generated in Android Studio 2.2 and later
+AndroidWallet/.externalNativeBuild
+AndroidWallet/.cxx/
+
+# Keystore files
+*.jks
+*.keystore
+
+# Google Services (e.g. APIs or Firebase)
+google-services.json
+
+# Android Profiling
+*.hprof
+
+# Freeline
+AndroidWallet/freeline.py
+AndroidWallet/freeline/
+AndroidWallet/freeline_project_description.json
+
+# fastlane
+AndroidWallet/fastlane/report.xml
+AndroidWallet/fastlane/Preview.html
+AndroidWallet/fastlane/screenshots
+AndroidWallet/fastlane/test_output
+AndroidWallet/fastlane/readme.md
+
+# Version control
+AndroidWallet/vcs.xml
+
+# lint
+AndroidWallet/lint/intermediates/
+AndroidWallet/lint/generated/
+AndroidWallet/lint/outputs/
+AndroidWallet/lint/tmp/
+AndroidWallet/lint/reports/
