@@ -7,7 +7,7 @@ import com.example.languagelearningapp.model.StudyCollectionWithWords
 @Dao
 interface StudyCollectionDao {
     @Insert
-    fun create(collection : StudyCollection): Long
+    fun add(collection : StudyCollection): Long
 
     @Delete
     fun delete(collection : StudyCollection)

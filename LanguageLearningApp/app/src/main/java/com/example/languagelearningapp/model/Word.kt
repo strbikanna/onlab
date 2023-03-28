@@ -5,7 +5,7 @@ import androidx.room.Index
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverter
 
-@Entity(indices = [Index(value = ["wordId"])])
+@Entity(indices = [Index(value = ["expression"], unique = true)])
 data class Word(
     @PrimaryKey(autoGenerate = true) val wordId: Long? = null,
     val expression: String,

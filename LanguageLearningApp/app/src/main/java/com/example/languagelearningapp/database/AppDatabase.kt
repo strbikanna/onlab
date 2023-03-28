@@ -4,8 +4,7 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.example.languagelearningapp.dao.StudyCollectionDao
-import com.example.languagelearningapp.dao.WordDao
+import com.example.languagelearningapp.dao.*
 import com.example.languagelearningapp.model.*
 
 @Database(entities = [Word::class,
@@ -16,7 +15,10 @@ import com.example.languagelearningapp.model.*
     version = 1)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun wordDao(): WordDao
+    abstract fun definitionDao(): DefinitionDao
     abstract fun studyCollectionDao(): StudyCollectionDao
+    abstract fun wordCollectionDao(): WordCollectionCrossRefDao
+    abstract fun wordDefinitionDao(): WordDefinitionCrossRefDao
 
     companion object {
         fun getDatabase(applicationContext: Context): AppDatabase {
