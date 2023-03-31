@@ -8,8 +8,8 @@ import com.example.languagelearningapp.model.WordDefinitionCrossRef
 @Dao
 interface WordDefinitionCrossRefDao {
     @Insert
-    fun add(crossRef : WordDefinitionCrossRef)
+    suspend fun add(crossRef : WordDefinitionCrossRef)
 
     @Delete
-    fun delete(crossRef : WordDefinitionCrossRef)
+    suspend fun delete(crossRef : WordDefinitionCrossRef)
 }

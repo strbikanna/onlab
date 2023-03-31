@@ -7,18 +7,18 @@ import com.example.languagelearningapp.model.StudyCollectionWithWords
 @Dao
 interface StudyCollectionDao {
     @Insert
-    fun add(collection : StudyCollection): Long
+    suspend fun add(collection : StudyCollection): Long
 
     @Delete
-    fun delete(collection : StudyCollection)
+    suspend fun delete(collection : StudyCollection)
 
     @Update
-    fun update(collection : StudyCollection)
+    suspend fun update(collection : StudyCollection)
 
     @Query("SELECT * FROM StudyCollection")
-    fun getAll(): List<StudyCollection>
+    suspend fun getAll(): List<StudyCollection>
 
     @Transaction
     @Query("SELECT * FROM StudyCollection")
-    fun getAllWithWords() : List<StudyCollectionWithWords>
+    suspend fun getAllWithWords() : List<StudyCollectionWithWords>
 }

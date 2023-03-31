@@ -16,28 +16,28 @@ class WordRepository @Inject constructor(
     private val defDao: DefinitionDao,
     private val wordDefRefDao: WordDefinitionCrossRefDao
 )  {
-    fun getAllWords() = wordDao.getAllWithDefinitions()
+    suspend fun getAllWords() = wordDao.getAllWithDefinitions()
 
-    fun getWordById(id: Long) =  wordDao.getById(id)
+    suspend fun getWordById(id: Long) =  wordDao.getById(id)
 
-    fun getWordsByDefinition(definition: Definition) = wordDao.getAllByDefinition(definition.description)
+    suspend fun getWordsByDefinition(definition: Definition) = wordDao.getAllByDefinition(definition.description)
 
-    fun addWord(wordWithDefinitions: WordWithDefinitions){
+    suspend fun addWord(wordWithDefinitions: WordWithDefinitions){
         val wordId = wordDao.add(wordWithDefinitions.word)
         wordWithDefinitions.definitions.forEach {
             addDefinition(it, wordId)
         }
     }
 
-    private fun addDefinition( definition: Definition, wordId: Long) {
+    private suspend fun addDefinition( definition: Definition, wordId: Long) {
         val defId = defDao.add(definition)
         wordDefRefDao.add(WordDefinitionCrossRef(wordId, defId))
     }
 
-    fun updateWord(word: Word) {
+    suspend fun updateWord(word: Word) {
         wordDao.update(word)
     }
-    fun updateWord(wordWithDefinition: WordWithDefinitions) {
+    suspend fun updateWord(wordWithDefinition: WordWithDefinitions) {
         val word = wordWithDefinition.word
         if(word.wordId == null){
             addWord(wordWithDefinition)
@@ -54,7 +54,7 @@ class WordRepository @Inject constructor(
         }
     }
 
-    fun deleteWord(word: Word)  {
+    suspend fun deleteWord(word: Word)  {
         wordDao.delete(word)
     }
 }

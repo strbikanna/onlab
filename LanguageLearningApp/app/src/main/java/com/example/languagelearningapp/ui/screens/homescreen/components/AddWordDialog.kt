@@ -1,15 +1,21 @@
 package com.example.languagelearningapp.ui.screens.homescreen.components
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.clipScrollableContainer
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.KeyboardArrowDown
+import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -24,35 +30,36 @@ import kotlinx.coroutines.job
 *  and other fields */
 
 @Composable
-fun AddWordDialog (
+fun AddWordDialog(
     openDialog: Boolean,
     closeDialog: () -> Unit,
     addWord: (word: WordWithDefinitions) -> Unit
-){
-    if(!openDialog)
+) {
+    if (!openDialog)
         return
-    var word by remember {mutableStateOf(Word(expression=""))}
-    var def by remember {mutableStateOf(Definition(description =""))}
-    var definitions = remember {mutableStateListOf(Definition(description = ""))}
+    var word by remember { mutableStateOf(Word(expression = "")) }
+    var definitions = remember { mutableStateListOf(Definition(description = "")) }
     val focusRequester = FocusRequester()
     var definitionCount by remember { mutableStateOf(0) }
 
     AlertDialog(
         onDismissRequest = closeDialog,
         title = {
-            Text(text = stringResource(R.string.AddWordDialogTitle),
+            Text(
+                text = stringResource(R.string.AddWordDialogTitle),
                 modifier = Modifier
                     .padding(5.dp)
-                    .height(30.dp) )
+                    .height(30.dp)
+            )
         },
         text = {
-            Column{
+            Column {
                 Spacer(
                     modifier = Modifier.height(10.dp)
                 )
                 TextField(
                     value = word.expression,
-                    onValueChange ={ word= word.copy(expression = it)},
+                    onValueChange = { word = word.copy(expression = it) },
                     placeholder = {
                         Text(text = stringResource(R.string.AddNewWordPlaceHolder))
                     },
@@ -64,32 +71,30 @@ fun AddWordDialog (
                     }
                 }
                 Spacer(
+                    modifier = Modifier.height(8.dp)
+                )
+                Text("Select word class: ")
+                WordClassDropdown({wc -> word=word.copy(wordClass = wc)})
+                Spacer(
                     modifier = Modifier.height(16.dp)
                 )
-                TextField(
-                    value = def.description,
-                    onValueChange = { def = def.copy(description = it) },
-                    placeholder = {
-                        Text(text = stringResource(R.string.DescriptionPlaceHolder) )
-                    },
-                    modifier = Modifier.focusRequester(focusRequester)
-                )
-                LazyColumn(){
-                    itemsIndexed(definitions){
-                        i, def ->
+                LazyColumn() {
+                    itemsIndexed(definitions) { i, def ->
+                        Spacer(
+                            modifier = Modifier.height(16.dp)
+                        )
                         TextField(
                             value = definitions[i].description,
-                            onValueChange = {v-> definitions[i] = definitions[i].copy(description = v) },
+                            onValueChange = { v ->
+                                definitions[i] = definitions[i].copy(description = v)
+                            },
                             placeholder = {
-                                Text(text = stringResource(R.string.DescriptionPlaceHolder) )
+                                Text(text = stringResource(R.string.DescriptionPlaceHolder))
                             },
                             modifier = Modifier.focusRequester(focusRequester)
                         )
                     }
-
                 }
-
-
                 TextButton(
                     onClick = {
                         definitionCount++
@@ -104,13 +109,13 @@ fun AddWordDialog (
         },
         confirmButton = {
             Button(
-                onClick= {
+                onClick = {
                     closeDialog()
-                    val wordWithDef = WordWithDefinitions(word, definitions)
+                    val wordWithDef = WordWithDefinitions(word, definitions.toList())
                     addWord(wordWithDef)
                 },
                 colors = ButtonDefaults.buttonColors(backgroundColor = MaterialTheme.colors.primaryVariant)
-            ){
+            ) {
                 Text(
                     text = stringResource(R.string.Save),
                 )
@@ -128,13 +133,61 @@ fun AddWordDialog (
         },
         shape = MaterialTheme.shapes.medium,
         backgroundColor = MaterialTheme.colors.primary,
-        modifier = Modifier.clipScrollableContainer(Orientation.Vertical)
+        modifier = Modifier.fillMaxSize(2f)
     )
+}
+
+@Composable
+fun WordClassDropdown(
+    setWordClass: (Word.WordClass) -> Unit,
+    modifier: Modifier = Modifier
+) {
+
+    var isExpanded by remember { mutableStateOf(false) }
+
+    val wordClasses = Word.WordClass.values()
+
+    var selectedValue by remember { mutableStateOf("") }
+
+    val icon = if (isExpanded)
+        Icons.Default.KeyboardArrowUp
+    else
+        Icons.Filled.KeyboardArrowDown
+
+    Column(Modifier.padding(20.dp)) {
+        OutlinedTextField(
+            value = selectedValue,
+            onValueChange = { selectedValue = it },
+            modifier = Modifier
+                .fillMaxWidth(),
+
+            label = { Text(stringResource(R.string.wordClassLabel)) },
+            trailingIcon = {
+                Icon(icon, "",
+                    Modifier.clickable { isExpanded = !isExpanded })
+            }
+        )
+        DropdownMenu(
+            expanded = isExpanded,
+            onDismissRequest = { isExpanded = false },
+        ) {
+            wordClasses.forEach { wc ->
+                DropdownMenuItem(onClick = {
+                    selectedValue = wc.name
+                    isExpanded = false
+                    setWordClass(wc)
+                }) {
+                    Text(text = wc.name)
+                }
+            }
+        }
+    }
 }
 
 @Preview
 @Composable
-fun alertPreview(){ LanguageLearningAppTheme() {
-    AddWordDialog(openDialog = true, closeDialog = { /*TODO*/ }, addWord ={} )
-}
+fun alertPreview() {
+    LanguageLearningAppTheme() {
+        AddWordDialog(openDialog = true, closeDialog = { }, addWord = {})
+    }
 }

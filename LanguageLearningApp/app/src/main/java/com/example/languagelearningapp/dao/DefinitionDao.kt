@@ -5,7 +5,7 @@ import com.example.languagelearningapp.model.Definition
 @Dao
 interface DefinitionDao {
     @Insert
-    fun add(def: Definition): Long
+    suspend fun add(def: Definition): Long
 
     @Delete
     fun delete(def: Definition)

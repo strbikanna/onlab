@@ -7,42 +7,42 @@ import com.example.languagelearningapp.model.WordWithDefinitions
 @Dao
 interface WordDao {
     @Insert
-    fun add(word: Word): Long
+    suspend fun add(word: Word): Long
 
     @Insert
-    fun addAll(words: List<Word>)
+    suspend fun addAll(words: List<Word>)
 
     @Update
-    fun updateAll(words: List<Word>)
+    suspend fun updateAll(words: List<Word>)
     @Update
-    fun update(word: Word)
+    suspend fun update(word: Word)
 
     @Delete
-    fun delete(word: Word)
+    suspend fun delete(word: Word)
 
     @Query("SELECT * FROM Word ORDER BY expression ASC")
-    fun getAllOrdered(): List<Word>
+    suspend fun getAllOrdered(): List<Word>
 
     @Query("SELECT * FROM Word WHERE wordId = :id")
-    fun getById(id: Long): Word
+    suspend fun getById(id: Long): Word
 
     @Transaction
     @Query("SELECT * FROM Word WHERE wordId = :id")
-    fun getOneWithDefinitionsById(id: Long): WordWithDefinitions
+    suspend fun getOneWithDefinitionsById(id: Long): WordWithDefinitions
 
     @Transaction
     @Query("SELECT * FROM Word")
-    fun getAllWithDefinitions(): List<WordWithDefinitions>
+    suspend fun getAllWithDefinitions(): List<WordWithDefinitions>
 
     @Transaction
     @Query("SELECT * FROM Word ORDER BY expression ASC")
-    fun getAllWithDefinitionsOrdered(): List<WordWithDefinitions>
+    suspend fun getAllWithDefinitionsOrdered(): List<WordWithDefinitions>
 
     @Query("SELECT * FROM Word WHERE learned = :learned")
-    fun getLearned(learned: Boolean = true): List<Word>
+    suspend fun getLearned(learned: Boolean = true): List<Word>
 
     @Query("SELECT * FROM Word WHERE favorite = :favorite")
-    fun getFavorites(favorite: Boolean = true): List<Word>
+    suspend fun getFavorites(favorite: Boolean = true): List<Word>
 
 
     @Transaction
@@ -53,5 +53,5 @@ interface WordDao {
                 "WHERE Definition.description = :definition"
     )
     @RewriteQueriesToDropUnusedColumns
-    fun getAllByDefinition(definition: String): List<WordWithDefinitions>
+    suspend fun getAllByDefinition(definition: String): List<WordWithDefinitions>
 }
