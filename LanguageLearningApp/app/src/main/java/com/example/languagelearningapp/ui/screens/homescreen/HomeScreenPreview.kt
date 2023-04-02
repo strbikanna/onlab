@@ -11,12 +11,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.compose.rememberNavController
 import com.example.languagelearningapp.R
 import com.example.languagelearningapp.model.Definition
 import com.example.languagelearningapp.model.Word
 import com.example.languagelearningapp.model.WordWithDefinitions
 import com.example.languagelearningapp.ui.screens.homescreen.components.AddWordButton
-import com.example.languagelearningapp.ui.screens.homescreen.components.BottomBar
+import com.example.languagelearningapp.ui.screens.homescreen.components.BottomNavigationBar
 import com.example.languagelearningapp.ui.screens.homescreen.components.HomeHeader
 import com.example.languagelearningapp.ui.screens.homescreen.components.WordDefinitionCard
 import com.example.languagelearningapp.ui.theme.LanguageLearningAppTheme
@@ -45,8 +46,9 @@ fun HomeScreenPreView(
             },
             floatingActionButton ={ AddWordButton(openDialog = {mockFunction()} )},
             isFloatingActionButtonDocked = true,
-            bottomBar = { BottomBar(
-                Modifier
+            bottomBar = { BottomNavigationBar(
+                navController = rememberNavController(),
+               modifier = Modifier
                     .padding(8.dp)
                     .clip(MaterialTheme.shapes.medium)) },
             modifier = Modifier.fillMaxSize()
