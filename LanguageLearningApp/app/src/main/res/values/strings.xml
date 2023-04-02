@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">LanguageLearningApp</string>
+    <string name="homePageTitle">Home</string>
+    <string name="HomeIconText">Home</string>
+    <string name="PhotoIconText">Photo</string>
+    <string name="DocumentsIconText">Documents</string>
+    <string name="StudySetIconText">Study sets</string>
+    <string name="AddWordDialogTitle">Add new word</string>
+    <string name="AddNewWordPlaceHolder">Enter new word</string>
+    <string name="DescriptionPlaceHolder">Enter description</string>
+    <string name="Save">Save</string>
+    <string name="cancel">Cancel</string>
+    <string name="addDefinition">Add another definition</string>
+    <string name="wordClassLabel">Word class</string>
+</resources>
