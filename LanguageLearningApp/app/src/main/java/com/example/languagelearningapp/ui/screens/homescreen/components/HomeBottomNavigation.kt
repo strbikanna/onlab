@@ -8,58 +8,73 @@ import androidx.compose.material.icons.filled.Camera
 import androidx.compose.material.icons.filled.DocumentScanner
 import androidx.compose.material.icons.filled.Folder
 import androidx.compose.material.icons.filled.Home
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.NavDestination.Companion.hierarchy
+import androidx.navigation.NavGraph.Companion.findStartDestination
+import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.languagelearningapp.R
+import com.example.languagelearningapp.navigation.Screen
 
 @Composable
-fun BottomBar(modifier: Modifier = Modifier) {
-    val selectedIndex = remember { mutableStateOf(0) }
+fun BottomNavigationBar(
+    navController: NavController,
+    modifier: Modifier = Modifier
+) {
     BottomNavigation(
         elevation = 10.dp,
         contentColor = MaterialTheme.colors.primaryVariant,
         backgroundColor = MaterialTheme.colors.primary,
         modifier = modifier
     ) {
-
+        val navBackStackEntry by navController.currentBackStackEntryAsState()
+        val currentDestination = navBackStackEntry?.destination
         BottomNavigationItem(icon = {
             Icon(imageVector = Icons.Default.Home, "")
         },
             label = { Text(text = stringResource(R.string.HomeIconText)) },
-            selected = (selectedIndex.value == 0),
+            selected = currentDestination?.hierarchy?.any { it.route == Screen.HomeScreen.route } == true,
             onClick = {
-                selectedIndex.value = 0
+                navigateTo(navController, Screen.HomeScreen.route)
             })
 
         BottomNavigationItem(icon = {
             Icon(imageVector = Icons.Default.Camera, "")
         },
             label = { Text(text = stringResource(R.string.PhotoIconText)) },
-            selected = (selectedIndex.value == 1),
+            selected = currentDestination?.hierarchy?.any { it.route == Screen.CameraScreen.route } == true,
             onClick = {
-                selectedIndex.value = 1
+                navigateTo(navController, Screen.CameraScreen.route)
             })
 
         BottomNavigationItem(icon = {
             Icon(imageVector = Icons.Default.DocumentScanner, "")
         },
             label = { Text(text = stringResource(R.string.DocumentsIconText)) },
-            selected = (selectedIndex.value == 2),
+            selected = currentDestination?.hierarchy?.any { it.route == Screen.DocumentScreen.route } == true,
             onClick = {
-                selectedIndex.value = 2
+                navigateTo(navController, Screen.DocumentScreen.route)
             })
         BottomNavigationItem(icon = {
             Icon(imageVector = Icons.Default.Folder, "")
         },
             label = { Text(text = stringResource(R.string.StudySetIconText)) },
-            selected = (selectedIndex.value == 3),
+            selected = currentDestination?.hierarchy?.any { it.route == Screen.CollectionScreen.route } == true,
             onClick = {
-                selectedIndex.value = 3
+                navigateTo(navController, Screen.CollectionScreen.route)
             })
-        Spacer(modifier = Modifier.width(30.dp))
+        Spacer(modifier = Modifier.width(50.dp))
+    }
+}
+
+
+private fun navigateTo(navController: NavController, destinationRoute: String) {
+    navController.navigate(destinationRoute) {
+        popUpTo(navController.graph.findStartDestination().id) { saveState = true }
+        launchSingleTop = true
+        restoreState = true
     }
 }
