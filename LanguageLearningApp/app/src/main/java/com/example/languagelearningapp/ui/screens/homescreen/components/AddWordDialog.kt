@@ -19,26 +19,28 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.ViewModel
 import com.example.languagelearningapp.R
 import com.example.languagelearningapp.model.Definition
 import com.example.languagelearningapp.model.Word
 import com.example.languagelearningapp.model.WordWithDefinitions
+import com.example.languagelearningapp.translation.TranslatorViewModel
 import com.example.languagelearningapp.ui.theme.LanguageLearningAppTheme
 import kotlinx.coroutines.job
 
-/*TODO more definitions
-*  and other fields */
 
 @Composable
 fun AddWordDialog(
     openDialog: Boolean,
     closeDialog: () -> Unit,
-    addWord: (word: WordWithDefinitions) -> Unit
+    addWord: (word: WordWithDefinitions) -> Unit,
 ) {
     if (!openDialog)
         return
     var word by remember { mutableStateOf(Word(expression = "")) }
-    var definitions = remember { mutableStateListOf(Definition(description = "")) }
+    var translatedDefinition by remember { mutableStateOf(Definition(description = "")) }
+    val definitions = remember { mutableStateListOf(Definition(description = "")) }
     val focusRequester = FocusRequester()
     var definitionCount by remember { mutableStateOf(0) }
 
@@ -74,7 +76,12 @@ fun AddWordDialog(
                     modifier = Modifier.height(8.dp)
                 )
                 Text("Select word class: ")
-                WordClassDropdown({wc -> word=word.copy(wordClass = wc)})
+                WordClassDropdown(
+                    setWordClass = { wc -> word = word.copy(wordClass = wc) },
+                    modifier = Modifier
+                        .height(10.dp)
+                        .width(20.dp)
+                )
                 Spacer(
                     modifier = Modifier.height(16.dp)
                 )
@@ -105,12 +112,20 @@ fun AddWordDialog(
                         text = stringResource(R.string.addDefinition)
                     )
                 }
+                TranslationComponent(
+                    onTranslationResult = { translation ->
+                        translatedDefinition = translatedDefinition.copy(description = translation)
+                    },
+                    inputText = word.expression
+                )
             }
         },
         confirmButton = {
             Button(
                 onClick = {
                     closeDialog()
+                    definitions.add(translatedDefinition)
+                    definitions.removeIf { def -> def.description.isEmpty() }
                     val wordWithDef = WordWithDefinitions(word, definitions.toList())
                     addWord(wordWithDef)
                 },
