@@ -20,7 +20,7 @@ import com.example.languagelearningapp.ui.screens.homescreen.components.*
 
 @Composable
 fun HomeScreen(
-    navController: NavController,
+    bottomBar: @Composable ()->Unit,
     viewModel: WordListViewModel = hiltViewModel()
 ) {
     Log.v("HOMESCREEN", "initializing...")
@@ -47,12 +47,7 @@ fun HomeScreen(
             floatingActionButton = { AddWordButton({ viewModel.openDialog() }) },
             isFloatingActionButtonDocked = true,
             bottomBar = {
-                BottomNavigationBar(
-                    navController,
-                    Modifier
-                        .padding(8.dp)
-                        .clip(MaterialTheme.shapes.medium)
-                )
+                bottomBar()
             }
         )
         AddWordDialog(

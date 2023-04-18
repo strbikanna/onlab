@@ -7,6 +7,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.languagelearningapp.model.StudyCollection
 import com.example.languagelearningapp.model.Word
 import com.example.languagelearningapp.model.WordWithDefinitions
 import com.example.languagelearningapp.repository.WordRepository
@@ -26,6 +27,7 @@ class WordListViewModel @Inject constructor(
     var word = Word(expression = "")
     private var _allWords: MutableStateFlow<List<WordWithDefinitions>> =
         MutableStateFlow(emptyList())
+
     var allWords: StateFlow<List<WordWithDefinitions>> = _allWords
 
     var openDialog by mutableStateOf(false)
@@ -39,27 +41,8 @@ class WordListViewModel @Inject constructor(
         }
     }
 
-    fun getWordById(id: Long) = viewModelScope.launch {
-        word = wordRepo.getWordById(id)
-    }
-
     fun addWord(wordWithDefinitions: WordWithDefinitions) = viewModelScope.launch {
         wordRepo.addWord(wordWithDefinitions)
-        reloadWords()
-    }
-
-    fun updateWord(word: Word) = viewModelScope.launch {
-        wordRepo.updateWord(word)
-        reloadWords()
-    }
-
-    fun updateWord(word: WordWithDefinitions) = viewModelScope.launch {
-        wordRepo.updateWord(word)
-        reloadWords()
-    }
-
-    fun deleteWord(word: Word) = viewModelScope.launch {
-        wordRepo.deleteWord(word)
         reloadWords()
     }
 

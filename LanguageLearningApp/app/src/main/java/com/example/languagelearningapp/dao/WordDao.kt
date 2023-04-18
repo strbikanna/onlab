@@ -54,4 +54,14 @@ interface WordDao {
     )
     @RewriteQueriesToDropUnusedColumns
     suspend fun getAllByDefinition(definition: String): List<WordWithDefinitions>
+
+    @Transaction
+    @Query(
+        "SELECT * FROM Word " +
+                "INNER JOIN WordCollectionCrossRef ON WordCollectionCrossRef.wordId = Word.wordId " +
+                "INNER JOIN StudyCollection ON WordCollectionCrossRef.collectionId = StudyCollection.collectionId " +
+                "WHERE StudyCollection.collectionID = :collectionId"
+    )
+    @RewriteQueriesToDropUnusedColumns
+    suspend fun getAllByCollection(collectionId: Long): List<WordWithDefinitions>
 }

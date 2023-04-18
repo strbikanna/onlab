@@ -19,7 +19,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
-class AppDatabaseTest : TestCase(){
+class AppDatabaseTest : TestCase() {
 
     private lateinit var db: AppDatabase
     private lateinit var wordDao: WordDao
@@ -27,6 +27,7 @@ class AppDatabaseTest : TestCase(){
     private lateinit var wordCollectionDao: WordCollectionCrossRefDao
     private lateinit var wordDefinitionDao: WordDefinitionCrossRefDao
     private lateinit var definitionDao: DefinitionDao
+
     @Before
     fun createDb() {
         val context = ApplicationProvider.getApplicationContext<Context>()
@@ -63,7 +64,7 @@ class AppDatabaseTest : TestCase(){
     }
 
     @Test
-    fun addWordToCollection(){
+    fun addWordToCollection() {
         val coll = StudyCollection(
             name = "testCollection",
             favorite = false,
@@ -85,8 +86,9 @@ class AppDatabaseTest : TestCase(){
             assertEquals(collId, collWithWords[0].collection.collectionId)
         }
     }
+
     @Test
-    fun addAndGetWordWithDefinitions(){
+    fun addAndGetWordWithDefinitions() {
         val testWord = Word(
             expression = "test word with meanings",
             wordClass = Word.WordClass.NOUN,
@@ -114,7 +116,7 @@ class AppDatabaseTest : TestCase(){
     }
 
     @Test
-    fun getWordsByDefinition(){
+    fun getWordsByDefinition() {
         val testWord1 = Word(
             expression = "test word",
         )
@@ -143,6 +145,45 @@ class AppDatabaseTest : TestCase(){
             savedWord1 = wordDao.getOneWithDefinitionsById(wordId1)
             assertEquals(def.description, savedWord1.definitions[0].description)
         }
+    }
+
+    @Test
+    fun getWordWithDefinitionsByCollection() {
+        val testWord1 = Word(
+            expression = "test word",
+        )
+        val testWord2 = Word(
+            expression = "test word with same meaning",
+        )
+        val testWord3 = Word(
+            expression = "another test word",
+        )
+        val def1 = Definition(description = "meaning of test word")
+        val def2 = Definition(description = "meaning of other test word")
+        val coll1 = StudyCollection(name = "testColl1")
+        val coll2 = StudyCollection(name = "testColl2")
+        CoroutineScope(Dispatchers.Default + Job()).launch {
+            val wordId1 = wordDao.add(testWord1)
+            val wordId2 = wordDao.add(testWord2)
+            val wordId3 = wordDao.add(testWord3)
+            val defId1 = definitionDao.add(def1)
+            val defId2 = definitionDao.add(def2)
+            val collId1 = collectionDao.add(coll1)
+            val collId2 = collectionDao.add(coll2)
+
+            wordDefinitionDao.add(WordDefinitionCrossRef(wordId1, defId1))
+            wordDefinitionDao.add(WordDefinitionCrossRef(wordId2, defId1))
+            wordDefinitionDao.add(WordDefinitionCrossRef(wordId3, defId2))
+
+            wordCollectionDao.add(WordCollectionCrossRef(wordId1, collId1))
+            wordCollectionDao.add(WordCollectionCrossRef(wordId2, collId1))
+            wordCollectionDao.add(WordCollectionCrossRef(wordId3, collId2))
+
+            assertEquals(2, wordDao.getAllByCollection(collId1).size)
+            assertEquals(1, wordDao.getAllByCollection(collId2).size)
+
+        }
+
     }
 
 }

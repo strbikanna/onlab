@@ -12,4 +12,9 @@ interface WordDefinitionCrossRefDao {
 
     @Delete
     suspend fun delete(crossRef : WordDefinitionCrossRef)
+    @Query(
+     "DELETE FROM WordDefinitionCrossRef " +
+             "WHERE wordId=:id"
+    )
+    suspend fun deleteByWordId(id: Long)
 }
