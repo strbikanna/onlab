@@ -12,4 +12,9 @@
     <string name="cancel">Cancel</string>
     <string name="addDefinition">Add another definition</string>
     <string name="wordClassLabel">Word class</string>
+    <string name="autoTranslateButtonLabel">Auto-translate</string>
+    <string name="Google_translation">Enable automatic translation by Google</string>
+    <string name="sourceLanguageLabel">source Language</string>
+    <string name="targetLanguageLabel">target language</string>
+    <string name="translateButton">Translate</string>
 </resources>
