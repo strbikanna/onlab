@@ -1,6 +1,5 @@
-package com.example.languagelearningapp.ui.screens.homescreen.components
+package com.example.languagelearningapp.ui.screens.collectionsscreen.components
 
-import android.util.Log
 import androidx.compose.foundation.layout.Row
 import androidx.compose.material.*
 import androidx.compose.runtime.*

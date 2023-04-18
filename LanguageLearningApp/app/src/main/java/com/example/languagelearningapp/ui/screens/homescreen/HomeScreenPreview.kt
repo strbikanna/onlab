@@ -15,7 +15,7 @@ import com.example.languagelearningapp.R
 import com.example.languagelearningapp.model.Definition
 import com.example.languagelearningapp.model.Word
 import com.example.languagelearningapp.model.WordWithDefinitions
-import com.example.languagelearningapp.ui.screens.homescreen.components.AddWordButton
+import com.example.languagelearningapp.ui.screens.collectionsscreen.components.AddWordButton
 import com.example.languagelearningapp.ui.screens.homescreen.components.BottomNavigationBar
 import com.example.languagelearningapp.ui.screens.homescreen.components.HomeHeader
 import com.example.languagelearningapp.ui.screens.homescreen.components.WordDefinitionCard
@@ -43,7 +43,7 @@ fun HomeScreenPreView(
                         .fillMaxHeight()
                 )
             },
-            floatingActionButton ={ AddWordButton(openDialog = {mockFunction()} )},
+            floatingActionButton ={ AddWordButton(openDialog = {mockFunction()} ) },
             isFloatingActionButtonDocked = true,
             bottomBar = { BottomNavigationBar(
                 onClickHome = { },

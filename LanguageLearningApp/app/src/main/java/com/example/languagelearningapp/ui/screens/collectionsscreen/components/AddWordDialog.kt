@@ -1,8 +1,6 @@
-package com.example.languagelearningapp.ui.screens.homescreen.components
+package com.example.languagelearningapp.ui.screens.collectionsscreen.components
 
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.clipScrollableContainer
-import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -11,21 +9,16 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.ViewModel
 import com.example.languagelearningapp.R
 import com.example.languagelearningapp.model.Definition
 import com.example.languagelearningapp.model.Word
 import com.example.languagelearningapp.model.WordWithDefinitions
-import com.example.languagelearningapp.translation.TranslatorViewModel
 import com.example.languagelearningapp.ui.theme.LanguageLearningAppTheme
 import kotlinx.coroutines.job
 
@@ -35,12 +28,15 @@ fun AddWordDialog(
     openDialog: Boolean,
     closeDialog: () -> Unit,
     addWord: (word: WordWithDefinitions) -> Unit,
+    initialWordWithDefinitions: WordWithDefinitions
 ) {
     if (!openDialog)
         return
-    var word by remember { mutableStateOf(Word(expression = "")) }
+    var word by remember { mutableStateOf(initialWordWithDefinitions.word) }
     var translatedDefinition by remember { mutableStateOf(Definition(description = "")) }
     val definitions = remember { mutableStateListOf(Definition(description = "")) }
+    definitions.clear()
+    definitions.addAll(initialWordWithDefinitions.definitions)
     val focusRequester = FocusRequester()
     var definitionCount by remember { mutableStateOf(0) }
 
@@ -85,7 +81,7 @@ fun AddWordDialog(
                 Spacer(
                     modifier = Modifier.height(16.dp)
                 )
-                LazyColumn() {
+                LazyColumn {
                     itemsIndexed(definitions) { i, def ->
                         Spacer(
                             modifier = Modifier.height(16.dp)
@@ -201,8 +197,12 @@ fun WordClassDropdown(
 
 @Preview
 @Composable
-fun alertPreview() {
-    LanguageLearningAppTheme() {
-        AddWordDialog(openDialog = true, closeDialog = { }, addWord = {})
+fun AlertPreview() {
+    LanguageLearningAppTheme {
+        AddWordDialog(openDialog = true, closeDialog = { }, addWord = {}, WordWithDefinitions(
+            word = Word(expression = ""),
+            definitions = listOf(Definition(description = ""))
+        )
+        )
     }
 }

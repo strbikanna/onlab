@@ -8,14 +8,14 @@ interface DefinitionDao {
     suspend fun add(def: Definition): Long
 
     @Delete
-    fun delete(def: Definition)
+    suspend fun delete(def: Definition)
 
     @Update
-    fun update(def: Definition)
+    suspend fun update(def: Definition)
 
     @Query("SELECT * FROM Definition WHERE description = :description")
-    fun getByDescription(description : String): Definition
+    suspend fun getByDescription(description : String): Definition
 
     @Query("SELECT * FROM Definition WHERE definitionId = :id")
-    fun getById(id: Long): Definition
+    suspend fun getById(id: Long): Definition
 }
