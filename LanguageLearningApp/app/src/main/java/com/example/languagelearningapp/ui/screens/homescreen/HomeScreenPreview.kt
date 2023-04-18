@@ -11,7 +11,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.navigation.compose.rememberNavController
 import com.example.languagelearningapp.R
 import com.example.languagelearningapp.model.Definition
 import com.example.languagelearningapp.model.Word
@@ -47,7 +46,11 @@ fun HomeScreenPreView(
             floatingActionButton ={ AddWordButton(openDialog = {mockFunction()} )},
             isFloatingActionButtonDocked = true,
             bottomBar = { BottomNavigationBar(
-                navController = rememberNavController(),
+                onClickHome = { },
+                onClickCamera = { },
+                onClickCollections = {  },
+                onClickDocuments = { },
+                currentDestination = null,
                modifier = Modifier
                     .padding(8.dp)
                     .clip(MaterialTheme.shapes.medium)) },

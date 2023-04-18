@@ -5,7 +5,7 @@ import androidx.room.Junction
 import androidx.room.Relation
 
 data class WordWithDefinitions(
-    @Embedded val word: Word,
+    @Embedded var word: Word,
     @Relation(
         parentColumn = "wordId",
         entityColumn = "definitionId",

@@ -17,6 +17,8 @@ interface StudyCollectionDao {
 
     @Query("SELECT * FROM StudyCollection")
     suspend fun getAll(): List<StudyCollection>
+    @Query("SELECT * FROM StudyCollection WHERE collectionId = :id")
+    suspend fun getAllById(id: Long): StudyCollection
 
     @Transaction
     @Query("SELECT * FROM StudyCollection")

@@ -1,20 +1,16 @@
 package com.example.languagelearningapp.repository
 
-import androidx.lifecycle.viewModelScope
-import com.example.languagelearningapp.dao.DefinitionDao
-import com.example.languagelearningapp.dao.WordDao
-import com.example.languagelearningapp.dao.WordDefinitionCrossRefDao
-import com.example.languagelearningapp.model.Definition
-import com.example.languagelearningapp.model.Word
-import com.example.languagelearningapp.model.WordDefinitionCrossRef
-import com.example.languagelearningapp.model.WordWithDefinitions
-import kotlinx.coroutines.launch
+import com.example.languagelearningapp.dao.*
+import com.example.languagelearningapp.error.WrongDataException
+import com.example.languagelearningapp.model.*
 import javax.inject.Inject
 
 class WordRepository @Inject constructor(
     private val wordDao: WordDao,
     private val defDao: DefinitionDao,
-    private val wordDefRefDao: WordDefinitionCrossRefDao
+    private val wordDefRefDao: WordDefinitionCrossRefDao,
+    private val collDao: StudyCollectionDao,
+    private val wordCollRefDao: WordCollectionCrossRefDao
 )  {
     suspend fun getAllWords() = wordDao.getAllWithDefinitions()
 
@@ -56,5 +52,23 @@ class WordRepository @Inject constructor(
 
     suspend fun deleteWord(word: Word)  {
         wordDao.delete(word)
+        wordCollRefDao.deleteByWordId(word.wordId!!)
+    }
+    suspend fun getWordsInCollection(collection: StudyCollection): List<WordWithDefinitions>{
+        if(collection.collectionId == null)
+            throw WrongDataException("Collection must have id.")
+        return wordDao.getAllByCollection(collection.collectionId)
+    }
+    suspend fun getAllCollections() = collDao.getAll()
+    suspend fun addCollection(collection: StudyCollection) = collDao.add(collection)
+    suspend fun deleteCollection(collection: StudyCollection) = collDao.delete(collection)
+    suspend fun getCollectionById(id: Long) = collDao.getAllById(id)
+    suspend fun addWordToCollection(word: WordWithDefinitions, collection: StudyCollection){
+        val wordId = wordDao.add(word.word)
+        word.definitions.forEach {
+            addDefinition(it, wordId)
+        }
+        val collId = collDao.add(collection)
+        wordCollRefDao.add(WordCollectionCrossRef(wordId, collId))
     }
 }
