@@ -3,17 +3,17 @@ package com.example.languagelearningapp.navigation
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavController
 import androidx.navigation.NavGraph.Companion.findStartDestination
-import androidx.navigation.compose.NavHost
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
+import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import com.example.languagelearningapp.text_recognition.TextRecognizerScreen
 import com.example.languagelearningapp.ui.screens.camerascreen.CameraScreen
 import com.example.languagelearningapp.ui.screens.collectionsscreen.CollectionsScreen
 import com.example.languagelearningapp.ui.screens.collectionsscreen.HeaderWithTitle
 import com.example.languagelearningapp.ui.screens.collectionsscreen.StudySetDetailedScreen
 import com.example.languagelearningapp.ui.screens.documentscreen.DocumentScreen
-import com.example.languagelearningapp.ui.screens.homescreen.HomeScreen
 import com.example.languagelearningapp.ui.screens.homescreen.components.BottomNavigationBar
 import com.example.languagelearningapp.ui.screens.practicescreen.PracticeScreen
 
@@ -30,7 +30,7 @@ fun NavGraph(
         composable(
             route = Screen.HomeScreen.route
         ) {
-            HomeScreen(
+            /*HomeScreen(
                 bottomBar =
                 {
                     BottomNavigationBar(
@@ -41,7 +41,8 @@ fun NavGraph(
                         currentDestination = navController.currentDestination
                     )
                 },
-            )
+            )*/
+            TextRecognizerScreen()
         }
         composable(
             route = Screen.CollectionScreen.route

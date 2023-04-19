@@ -44,13 +44,15 @@ class WordCollectionViewModel @Inject constructor(
             _allCollections.value = repo.getAllCollections()
             Log.v("VIEWMODEL", "initialized data")
         }
-        _allWords.addSource(collection
+        _allWords.addSource(
+            collection
         ) {
-            if(it.collectionId != null)
+            if (it.collectionId != null)
                 getAllWordsInStudyCollection(it)
         }
     }
-    fun setUpForCollection(id: Long){
+
+    fun setUpForCollection(id: Long) {
         getCollectionById(id)
     }
 
@@ -96,7 +98,7 @@ class WordCollectionViewModel @Inject constructor(
 
     private suspend fun reloadWords() {
         Log.v("VIEWMODEL", "reload words")
-        if(collection.value != null && collection.value!!.collectionId != null){
+        if (collection.value != null && collection.value!!.collectionId != null) {
             _allWords.value = (repo.getWordsInCollection(collection.value!!))
         }
         Log.v("VIEWMODEL", "new data loaded")

@@ -6,4 +6,5 @@ import androidx.navigation.NavController
 @Composable
 fun CameraScreen(
     navController: NavController
-){}
+) {
+}

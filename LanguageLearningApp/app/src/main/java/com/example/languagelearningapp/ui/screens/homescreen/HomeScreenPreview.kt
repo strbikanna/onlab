@@ -43,21 +43,25 @@ fun HomeScreenPreView(
                         .fillMaxHeight()
                 )
             },
-            floatingActionButton ={ AddWordButton(openDialog = {mockFunction()} ) },
+            floatingActionButton = { AddWordButton(openDialog = { mockFunction() }) },
             isFloatingActionButtonDocked = true,
-            bottomBar = { BottomNavigationBar(
-                onClickHome = { },
-                onClickCamera = { },
-                onClickCollections = {  },
-                onClickDocuments = { },
-                currentDestination = null,
-               modifier = Modifier
-                    .padding(8.dp)
-                    .clip(MaterialTheme.shapes.medium)) },
+            bottomBar = {
+                BottomNavigationBar(
+                    onClickHome = { },
+                    onClickCamera = { },
+                    onClickCollections = { },
+                    onClickDocuments = { },
+                    currentDestination = null,
+                    modifier = Modifier
+                        .padding(8.dp)
+                        .clip(MaterialTheme.shapes.medium)
+                )
+            },
             modifier = Modifier.fillMaxSize()
         )
     }
 }
+
 private fun getMockData(): List<WordWithDefinitions> {
     return listOf(
         WordWithDefinitions(
@@ -122,4 +126,5 @@ private fun getMockData(): List<WordWithDefinitions> {
         ),
     )
 }
-fun mockFunction(){}
+
+fun mockFunction() {}

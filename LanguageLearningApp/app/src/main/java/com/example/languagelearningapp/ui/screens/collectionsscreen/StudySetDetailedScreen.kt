@@ -4,7 +4,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.*
+import androidx.compose.material.FabPosition
+import androidx.compose.material.Scaffold
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
@@ -12,9 +13,9 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.languagelearningapp.model.Definition
 import com.example.languagelearningapp.model.Word
 import com.example.languagelearningapp.model.WordWithDefinitions
-import com.example.languagelearningapp.ui.screens.collectionsscreen.components.SwipeableWordWithDefDetailedCard
 import com.example.languagelearningapp.ui.screens.collectionsscreen.components.AddWordButton
 import com.example.languagelearningapp.ui.screens.collectionsscreen.components.AddWordDialog
+import com.example.languagelearningapp.ui.screens.collectionsscreen.components.SwipeableWordWithDefDetailedCard
 import com.example.languagelearningapp.ui.view_model.WordCollectionViewModel
 
 @Composable

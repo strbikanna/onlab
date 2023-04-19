@@ -19,8 +19,8 @@ import com.example.languagelearningapp.ui.view_model.WordCollectionViewModel
 
 @Composable
 fun CollectionsScreen(
-    bottomBar: @Composable ()->Unit,
-    topBar: @Composable (title: String)->Unit,
+    bottomBar: @Composable () -> Unit,
+    topBar: @Composable (title: String) -> Unit,
     navigateDetailedCollection: (collectionId: Long) -> Unit,
     viewModel: WordCollectionViewModel = hiltViewModel()
 ) {
@@ -34,28 +34,28 @@ fun CollectionsScreen(
         bottomBar = {
             bottomBar()
         }
-    ) {
-        padding ->
+    ) { padding ->
         LazyVerticalGrid(
             columns = GridCells.Fixed(2),
             modifier = Modifier
                 .padding(padding)
                 .padding(top = 50.dp)
                 .fillMaxWidth()
-        ){
-            items(studySets){ set ->
+        ) {
+            items(studySets) { set ->
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally
-                ){
+                ) {
                     IconButton(
                         onClick = {
-                                  navigateDetailedCollection(set.collectionId!!)
-                                  },
+                            navigateDetailedCollection(set.collectionId!!)
+                        },
                         modifier = Modifier.size(120.dp)
                     ) {
-                        Icon(Icons.Default.Folder,
+                        Icon(
+                            Icons.Default.Folder,
                             contentDescription = "studySet",
-                            tint= MaterialTheme.colors.primaryVariant,
+                            tint = MaterialTheme.colors.primaryVariant,
                             modifier = Modifier.fillMaxSize()
                         )
                     }

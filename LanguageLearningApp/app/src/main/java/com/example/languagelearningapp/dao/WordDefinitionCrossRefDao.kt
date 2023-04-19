@@ -5,21 +5,24 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import com.example.languagelearningapp.model.WordDefinitionCrossRef
+
 @Dao
 interface WordDefinitionCrossRefDao {
     @Insert
-    suspend fun add(crossRef : WordDefinitionCrossRef)
+    suspend fun add(crossRef: WordDefinitionCrossRef)
 
     @Delete
-    suspend fun delete(crossRef : WordDefinitionCrossRef)
+    suspend fun delete(crossRef: WordDefinitionCrossRef)
+
     @Query(
-     "DELETE FROM WordDefinitionCrossRef " +
-             "WHERE wordId=:id"
+        "DELETE FROM WordDefinitionCrossRef " +
+                "WHERE wordId=:id"
     )
     suspend fun deleteByWordId(id: Long)
+
     @Query(
-     "DELETE FROM WordDefinitionCrossRef " +
-             "WHERE definitionId=:id"
+        "DELETE FROM WordDefinitionCrossRef " +
+                "WHERE definitionId=:id"
     )
     suspend fun deleteByDefinitionId(id: Long)
 }

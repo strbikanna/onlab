@@ -1,12 +1,15 @@
 package com.example.languagelearningapp.ui.screens.collectionsscreen.components
 
 import androidx.compose.foundation.layout.Row
-import androidx.compose.material.*
+import androidx.compose.material.Button
+import androidx.compose.material.Text
+import androidx.compose.material.TextButton
+import androidx.compose.material.TextField
 import androidx.compose.runtime.*
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.compose.runtime.livedata.observeAsState
 import com.example.languagelearningapp.R
 import com.example.languagelearningapp.translation.TranslatorViewModel
 

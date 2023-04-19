@@ -19,7 +19,7 @@ import com.example.languagelearningapp.ui.view_model.WordListViewModel
 
 @Composable
 fun HomeScreen(
-    bottomBar: @Composable ()->Unit,
+    bottomBar: @Composable () -> Unit,
     viewModel: WordListViewModel = hiltViewModel()
 ) {
     Log.v("HOMESCREEN", "initializing...")
