@@ -7,9 +7,9 @@ import org.junit.Before
 import org.junit.Test
 
 class TranslatorTest {
-    val translator = TranslatorViewModel()
-    val english = Language(TranslateLanguage.ENGLISH)
-    val hungarian = Language(TranslateLanguage.HUNGARIAN)
+    private val translator = TranslatorViewModel()
+    private val english = Language(TranslateLanguage.ENGLISH)
+    private val hungarian = Language(TranslateLanguage.HUNGARIAN)
 
     @Before
     fun setUp() {

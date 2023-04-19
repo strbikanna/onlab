@@ -26,7 +26,7 @@ abstract class AppDatabase : RoomDatabase() {
                 applicationContext,
                 AppDatabase::class.java,
                 "language-learning-db"
-            ).build();
+            ).build()
         }
     }
 }

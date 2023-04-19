@@ -1,4 +1,4 @@
-package com.example.languagelearningapp.ui.screens.homescreen.components
+package com.example.languagelearningapp.ui.screens.collectionsscreen.components
 
 import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon

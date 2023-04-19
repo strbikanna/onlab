@@ -17,4 +17,9 @@ interface WordDefinitionCrossRefDao {
              "WHERE wordId=:id"
     )
     suspend fun deleteByWordId(id: Long)
+    @Query(
+     "DELETE FROM WordDefinitionCrossRef " +
+             "WHERE definitionId=:id"
+    )
+    suspend fun deleteByDefinitionId(id: Long)
 }

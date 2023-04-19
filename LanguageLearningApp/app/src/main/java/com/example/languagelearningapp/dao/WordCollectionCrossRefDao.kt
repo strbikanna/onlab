@@ -17,4 +17,15 @@ interface WordCollectionCrossRefDao {
                 "WHERE wordId=:id"
     )
     suspend fun deleteByWordId(id: Long)
+    @Query(
+        "DELETE FROM WordCollectionCrossRef " +
+                "WHERE collectionId=:id"
+    )
+    suspend fun deleteByCollectionId(id: Long)
+    @Query(
+        "UPDATE WordCollectionCrossRef " +
+                "SET collectionId = :newCollectionId " +
+                "WHERE collectionId = :oldCollectionId"
+    )
+    suspend fun moveWordsToCollection(oldCollectionId: Long, newCollectionId: Long)
 }

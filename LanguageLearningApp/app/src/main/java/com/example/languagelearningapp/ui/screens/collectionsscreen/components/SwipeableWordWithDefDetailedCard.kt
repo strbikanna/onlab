@@ -9,9 +9,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
-import androidx.compose.material.icons.outlined.Favorite
 import androidx.compose.material.icons.outlined.StarOutline
-import androidx.compose.material.icons.rounded.Favorite
 import androidx.compose.material3.Card
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -68,18 +66,19 @@ private fun WordWithDefDetailedCard(
                 .padding(10.dp)
         ) {
             Column(
-                verticalArrangement = Arrangement.spacedBy(20.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier.weight(1f)
             ){
                 Text(
                     text = wordWithDefinitions.word.expression,
                     style = MaterialTheme.typography.body1,
+                    modifier = Modifier.padding(horizontal = 20.dp)
                 )
                 if(expanded){
                     Text(
                         text = wordWithDefinitions.word.wordClass?.name?.lowercase() ?: "",
                         style = MaterialTheme.typography.body2,
+                        modifier = Modifier.padding(horizontal = 20.dp)
                     )
                 }
             }
@@ -94,7 +93,7 @@ private fun WordWithDefDetailedCard(
                 )
             } else {
                 LazyColumn(
-                    verticalArrangement = Arrangement.spacedBy(15.dp),
+                    verticalArrangement = Arrangement.spacedBy(20.dp),
                     modifier = Modifier.weight(1f)
                 ) {
                     items(wordWithDefinitions.definitions) {
@@ -141,11 +140,11 @@ fun SwipeableWordWithDefDetailedCard(
             onDelete = { onDelete(wordWithDefinitions)},
             onEdit = {onEdit(wordWithDefinitions)},
             onFavorite= {favorite -> onFavorite(wordWithDefinitions, favorite)},
-            modifier = modifier.height(80.dp)
+            modifier = modifier.height(100.dp)
         )
         WordWithDefDetailedCard(
             wordWithDefinitions = wordWithDefinitions,
-            modifier = modifier.height(80.dp)
+            modifier = modifier.height(100.dp)
         )
     }
 
@@ -197,7 +196,7 @@ fun ActionsRow(
 
 @Preview
 @Composable
-private fun wordWithDefPreview() {
+private fun WordWithDefPreview() {
     val data = WordWithDefinitions(
         Word(expression = "TestWord", wordClass = Word.WordClass.NOUN, favorite = false),
         listOf(

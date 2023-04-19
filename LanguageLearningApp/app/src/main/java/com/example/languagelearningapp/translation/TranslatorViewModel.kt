@@ -3,8 +3,6 @@ package com.example.languagelearningapp.translation
 
 import android.util.Log
 import android.util.LruCache
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.android.gms.tasks.OnCompleteListener
@@ -13,7 +11,6 @@ import com.google.android.gms.tasks.Tasks
 import com.google.mlkit.common.model.DownloadConditions
 import com.google.mlkit.common.model.RemoteModelManager
 import com.google.mlkit.nl.translate.*
-import com.google.mlkit.nl.translate.Translator
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 

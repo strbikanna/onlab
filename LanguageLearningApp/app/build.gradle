@@ -88,8 +88,12 @@ dependencies {
     kapt "com.google.dagger:hilt-compiler:$hilt_version"
     implementation "androidx.hilt:hilt-navigation-compose:$hilt_navigation_compose_version"
 
-    //translate ml kit
+    //translate ml-kit
     implementation 'com.google.mlkit:translate:17.0.1'
+
+    //text recognition ml-kit
+    implementation 'com.google.android.gms:play-services-mlkit-text-recognition:18.0.2'
+
 }
 // Allow references to generated code
 kapt {
