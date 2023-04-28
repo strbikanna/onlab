@@ -17,4 +17,7 @@
     <string name="sourceLanguageLabel">source Language</string>
     <string name="targetLanguageLabel">target language</string>
     <string name="translateButton">Translate</string>
+    <string name="camera_rationale">Please grant access to camera, in order to capture pictures for translating text.</string>
+    <string name="camera_permission_request">To access this feature the application needs camera usage permission. Please grant permission.</string>
+    <string name="retake_picture">Retake</string>
 </resources>

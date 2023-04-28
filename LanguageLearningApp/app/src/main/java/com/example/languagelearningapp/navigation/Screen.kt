@@ -6,6 +6,7 @@ const val DOCUMENT_ROUTE = "documents"
 const val CAMERA_ROUTE = "camera"
 const val PRACTICE_ROUTE = "practice"
 const val COLLECTION_DETAILED_ROUTE = "collection_detailed"
+const val TEXT_RECOGNIZER_ROUTE = "text_recognition"
 
 sealed class Screen(val route: String) {
     object HomeScreen : Screen(HOME_ROUTE)
