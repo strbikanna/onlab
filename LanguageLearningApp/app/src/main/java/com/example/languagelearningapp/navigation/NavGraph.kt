@@ -8,6 +8,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.example.languagelearningapp.ui.screens.camerascreen.CameraScreen
+import com.example.languagelearningapp.ui.screens.camerascreen.components.TextRecognizerScreen
 import com.example.languagelearningapp.ui.screens.collectionsscreen.CollectionsScreen
 import com.example.languagelearningapp.ui.screens.collectionsscreen.HeaderWithTitle
 import com.example.languagelearningapp.ui.screens.collectionsscreen.StudySetDetailedScreen
@@ -17,8 +18,10 @@ import com.example.languagelearningapp.ui.screens.homescreen.components.BottomNa
 import com.example.languagelearningapp.ui.screens.practicescreen.PracticeScreen
 
 const val COLL_ID = "collId"
+private const val IMAGE_ID = "im_key"
 
 @Composable
+@androidx.camera.core.ExperimentalGetImage
 fun NavGraph(
     navController: NavHostController
 ) {
@@ -30,14 +33,14 @@ fun NavGraph(
             route = Screen.HomeScreen.route
         ) {
             HomeScreen(
-                bottomBar = {createBottomBar(navController)},
+                bottomBar = { createBottomBar(navController) },
             )
         }
         composable(
             route = Screen.CollectionScreen.route
         ) {
             CollectionsScreen(
-                bottomBar = {createBottomBar(navController)},
+                bottomBar = { createBottomBar(navController) },
                 topBar = { title ->
                     HeaderWithTitle(title = title, onBackPressed = { navController.popBackStack() })
                 },
@@ -58,7 +61,7 @@ fun NavGraph(
             val id = backstackEntry.arguments?.getLong(COLL_ID) ?: 1
             StudySetDetailedScreen(
                 studySetId = id,
-                bottomBar = {createBottomBar(navController)},
+                bottomBar = { createBottomBar(navController) },
                 topBar = { title ->
                     HeaderWithTitle(title = title, onBackPressed = { navController.popBackStack() })
                 }
@@ -68,17 +71,37 @@ fun NavGraph(
             route = Screen.CameraScreen.route
         ) {
             CameraScreen(
-                bottomBar = {createBottomBar(navController)},
+                bottomBar = { createBottomBar(navController) },
                 topBar = { title ->
                     HeaderWithTitle(title = title, onBackPressed = { navController.popBackStack() })
-                })
+                },
+                onCaptureSuccess = { imageId ->
+                    navigateTo(navController, "${Screen.TextRecognizerScreen.route}/$imageId")
+                },
+            )
+        }
+        composable(
+            route = "${Screen.TextRecognizerScreen.route}/{$IMAGE_ID}",
+            arguments = listOf(
+                navArgument(name = IMAGE_ID) {
+                    type = NavType.StringType
+                    nullable = false
+                }
+            )
+        )
+        { backstackEntry ->
+            val imageUriInfo = backstackEntry.arguments?.getString(IMAGE_ID)
+            TextRecognizerScreen(
+                imageId = imageUriInfo!!,
+                onBack = { navController.popBackStack() }
+            )
         }
 
         composable(
             route = Screen.PracticeScreen.route
         ) {
             PracticeScreen(
-                bottomBar = {createBottomBar(navController)},
+                bottomBar = { createBottomBar(navController) },
                 topBar = { title ->
                     HeaderWithTitle(title = title, onBackPressed = { navController.popBackStack() })
                 }
@@ -88,7 +111,7 @@ fun NavGraph(
             route = Screen.DocumentScreen.route
         ) {
             DocumentScreen(
-                bottomBar = {createBottomBar(navController)},
+                bottomBar = { createBottomBar(navController) },
                 topBar = { title ->
                     HeaderWithTitle(title = title, onBackPressed = { navController.popBackStack() })
                 }

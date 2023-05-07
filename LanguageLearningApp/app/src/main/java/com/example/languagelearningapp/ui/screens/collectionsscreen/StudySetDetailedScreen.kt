@@ -66,7 +66,7 @@ fun StudySetDetailedScreen(
     AddWordDialog(
         openDialog = viewModel.openDialog,
         closeDialog = { viewModel.closeDialog() },
-        addWord = { word -> viewModel.addWord(word) },
+        addWord = { word -> viewModel.addWordToCollection(word, collection!!) },
         initialWordWithDefinitions = wordToEdit
     )
 }

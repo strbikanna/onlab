@@ -25,7 +25,7 @@ class TextRecognizerViewModel : ViewModel() {
             .addOnSuccessListener {
                 Log.d(MANUAL_TESTING_LOG, "Processing finished with success.")
                 resultText.value = TextOrError(it, null)
-                logExtrasForTesting(it)
+                //logExtrasForTesting(it)
             }
             .addOnFailureListener {
                 Log.d(MANUAL_TESTING_LOG, "Processing finished with failure.")

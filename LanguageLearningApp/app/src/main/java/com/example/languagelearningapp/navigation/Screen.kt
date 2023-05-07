@@ -15,4 +15,5 @@ sealed class Screen(val route: String) {
     object CameraScreen : Screen(CAMERA_ROUTE)
     object PracticeScreen : Screen(PRACTICE_ROUTE)
     object CollectionDetailedScreen : Screen(COLLECTION_DETAILED_ROUTE)
+    object TextRecognizerScreen : Screen(TEXT_RECOGNIZER_ROUTE)
 }

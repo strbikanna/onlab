@@ -20,4 +20,8 @@
     <string name="camera_rationale">Please grant access to camera, in order to capture pictures for translating text.</string>
     <string name="camera_permission_request">To access this feature the application needs camera usage permission. Please grant permission.</string>
     <string name="retake_picture">Retake</string>
+    <string name="textRecognizerError">No text could be recognized on picture. Try to take one with better focus.</string>
+    <string name="NoTextBlockRecognized">No text could be recognized. Try taking another picture.</string>
+    <string name="invalidDataToast">Don\'t leave empty fields.</string>
+    <string name="study_set">Study set</string>
 </resources>

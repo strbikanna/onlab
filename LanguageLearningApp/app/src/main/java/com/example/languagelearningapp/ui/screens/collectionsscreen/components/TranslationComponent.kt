@@ -1,10 +1,7 @@
 package com.example.languagelearningapp.ui.screens.collectionsscreen.components
 
 import androidx.compose.foundation.layout.Row
-import androidx.compose.material.Button
-import androidx.compose.material.Text
-import androidx.compose.material.TextButton
-import androidx.compose.material.TextField
+import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
@@ -57,7 +54,10 @@ fun TranslationComponent(
         onTranslationResult(translatedText?.result ?: "")
 
     } else {
-        TextButton(onClick = { enabled = true }) {
+        TextButton(
+            onClick = { enabled = true },
+            colors = ButtonDefaults.textButtonColors(contentColor = MaterialTheme.colors.primaryVariant)
+        ) {
             Text(text = stringResource(R.string.Google_translation))
         }
     }

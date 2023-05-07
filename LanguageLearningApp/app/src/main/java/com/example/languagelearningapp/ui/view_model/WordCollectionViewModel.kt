@@ -60,9 +60,14 @@ class WordCollectionViewModel @Inject constructor(
         word = repo.getWordById(id)
     }
 
-    fun addWord(wordWithDefinitions: WordWithDefinitions) = viewModelScope.launch {
-        repo.addWordToCollection(wordWithDefinitions, collection.value!!)
-        reloadWords()
+    fun addWordToCollection(wordWithDefinitions: WordWithDefinitions, collection: StudyCollection) =
+        viewModelScope.launch {
+            repo.addWordToCollection(wordWithDefinitions, collection)
+            reloadWords()
+        }
+
+    fun addCollection(collection: StudyCollection) = viewModelScope.launch {
+        repo.addCollection(collection)
     }
 
     fun updateWord(word: Word) = viewModelScope.launch {
