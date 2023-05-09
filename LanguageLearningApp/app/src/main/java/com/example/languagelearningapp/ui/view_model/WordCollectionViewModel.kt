@@ -34,7 +34,6 @@ class WordCollectionViewModel @Inject constructor(
     var allCollections: StateFlow<List<StudyCollection>> = _allCollections
     var allWords: MediatorLiveData<List<WordWithDefinitions>> = _allWords
 
-
     var openDialog by mutableStateOf(false)
 
     init {

@@ -24,4 +24,9 @@
     <string name="NoTextBlockRecognized">No text could be recognized. Try taking another picture.</string>
     <string name="invalidDataToast">Don\'t leave empty fields.</string>
     <string name="study_set">Study set</string>
+    <string name="practice_words">Practice</string>
+    <string name="favorites_filter">Favorites</string>
+    <string name="learned_filter">Unlearned</string>
+    <string name="finish_practice">Finished!</string>
+    <string name="learned_toast">Word learned!!</string>
 </resources>

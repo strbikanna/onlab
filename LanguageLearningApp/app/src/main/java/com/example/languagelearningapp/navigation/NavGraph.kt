@@ -64,6 +64,12 @@ fun NavGraph(
                 bottomBar = { createBottomBar(navController) },
                 topBar = { title ->
                     HeaderWithTitle(title = title, onBackPressed = { navController.popBackStack() })
+                },
+                onPractice = { collId ->
+                    navigateTo(
+                        navController,
+                        "${Screen.PracticeScreen.route}/$collId"
+                    )
                 }
             )
         }
@@ -98,13 +104,21 @@ fun NavGraph(
         }
 
         composable(
-            route = Screen.PracticeScreen.route
-        ) {
+            route = "${Screen.PracticeScreen.route}/{$COLL_ID}",
+            arguments = listOf(
+                navArgument(name = COLL_ID) {
+                    type = NavType.LongType
+                    nullable = false
+                }
+            )
+        ) { backstackEntry ->
+            val id = backstackEntry.arguments?.getLong(COLL_ID) ?: 1
             PracticeScreen(
                 bottomBar = { createBottomBar(navController) },
                 topBar = { title ->
                     HeaderWithTitle(title = title, onBackPressed = { navController.popBackStack() })
-                }
+                },
+                collectionId = id
             )
         }
         composable(

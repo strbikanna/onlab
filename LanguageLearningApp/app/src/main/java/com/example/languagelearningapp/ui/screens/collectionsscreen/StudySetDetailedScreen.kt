@@ -1,5 +1,7 @@
 package com.example.languagelearningapp.ui.screens.collectionsscreen
 
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -9,12 +11,14 @@ import androidx.compose.material.Scaffold
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.languagelearningapp.model.Definition
 import com.example.languagelearningapp.model.Word
 import com.example.languagelearningapp.model.WordWithDefinitions
 import com.example.languagelearningapp.ui.screens.collectionsscreen.components.AddWordButton
 import com.example.languagelearningapp.ui.screens.collectionsscreen.components.AddWordDialog
+import com.example.languagelearningapp.ui.screens.collectionsscreen.components.StudySetUseCaseControls
 import com.example.languagelearningapp.ui.screens.collectionsscreen.components.SwipeableWordWithDefDetailedCard
 import com.example.languagelearningapp.ui.view_model.WordCollectionViewModel
 
@@ -23,6 +27,7 @@ fun StudySetDetailedScreen(
     studySetId: Long,
     bottomBar: @Composable () -> Unit,
     topBar: @Composable (title: String) -> Unit,
+    onPractice: (Long) -> Unit,
     viewModel: WordCollectionViewModel = hiltViewModel()
 ) {
     viewModel.setUpForCollection(studySetId)
@@ -40,28 +45,41 @@ fun StudySetDetailedScreen(
         topBar = { topBar(collection?.name ?: "") },
         bottomBar = { bottomBar() },
         floatingActionButton = { AddWordButton({ viewModel.openDialog() }) },
-        floatingActionButtonPosition = FabPosition.Center
+        floatingActionButtonPosition = FabPosition.Center,
+        isFloatingActionButtonDocked = true
     ) { padding ->
-        LazyColumn(
+        Column(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(padding)
         ) {
-            items(words ?: emptyList()) { wordWithDefinitions ->
-                SwipeableWordWithDefDetailedCard(
-                    wordWithDefinitions = wordWithDefinitions,
-                    onDelete = { word -> viewModel.deleteWord(word.word) },
-                    onEdit = { word ->
-                        wordToEdit = word
-                        viewModel.openDialog()
-                    },
-                    onFavorite = { word, favorite ->
-                        word.word = word.word.copy(favorite = favorite)
-                        viewModel.updateWord(word.word)
-                    }
-                )
+            StudySetUseCaseControls(
+                onPractice = { onPractice(studySetId) },
+                onFavorites = { /*TODO*/ },
+                onUnLearned = { /*TODO*/ },
+                modifier = Modifier.weight(1f)
+            )
+            LazyColumn(
+                verticalArrangement = Arrangement.spacedBy(3.dp),
+                modifier = Modifier.weight(9f)
+            ) {
+                items(words ?: emptyList()) { wordWithDefinitions ->
+                    SwipeableWordWithDefDetailedCard(
+                        wordWithDefinitions = wordWithDefinitions,
+                        onDelete = { word -> viewModel.deleteWord(word.word) },
+                        onEdit = { word ->
+                            wordToEdit = word
+                            viewModel.openDialog()
+                        },
+                        onFavorite = { word, favorite ->
+                            word.word = word.word.copy(favorite = favorite)
+                            viewModel.updateWord(word.word)
+                        }
+                    )
+                }
             }
         }
+
     }
     AddWordDialog(
         openDialog = viewModel.openDialog,

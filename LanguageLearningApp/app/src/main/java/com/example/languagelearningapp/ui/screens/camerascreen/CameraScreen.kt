@@ -74,7 +74,5 @@ fun CameraScreen(
             reloadRequested = true
             viewModel.captureSuccess.value = false
         })
-
     }
-
 }

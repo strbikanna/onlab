@@ -25,9 +25,9 @@ import java.util.*
 import kotlin.math.roundToInt
 
 
-const val ANIMATION_DURATION = 500
-const val CARD_OFFSET = 500f
-const val MIN_DRAG_AMOUNT = 6
+private const val ANIMATION_DURATION = 500
+private const val CARD_OFFSET = 500f
+private const val MIN_DRAG_AMOUNT = 6
 
 @SuppressLint("UnusedTransitionTargetStateParameter")
 @Composable
