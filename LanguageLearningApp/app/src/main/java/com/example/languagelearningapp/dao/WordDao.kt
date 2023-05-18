@@ -14,6 +14,7 @@ interface WordDao {
 
     @Update
     suspend fun updateAll(words: List<Word>)
+
     @Update
     suspend fun update(word: Word)
 
@@ -64,6 +65,7 @@ interface WordDao {
     )
     @RewriteQueriesToDropUnusedColumns
     suspend fun getAllByCollection(collectionId: Long): List<WordWithDefinitions>
+
     @Transaction
     @Query(
         "DELETE FROM Word " +

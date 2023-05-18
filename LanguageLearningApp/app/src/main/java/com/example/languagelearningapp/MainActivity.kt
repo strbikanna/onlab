@@ -13,7 +13,9 @@ import com.example.languagelearningapp.ui.theme.LanguageLearningAppTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
+@androidx.camera.core.ExperimentalGetImage
 class MainActivity : ComponentActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {

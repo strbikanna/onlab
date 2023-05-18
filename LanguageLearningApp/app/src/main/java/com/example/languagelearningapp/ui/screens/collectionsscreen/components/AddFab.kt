@@ -12,7 +12,7 @@ import androidx.compose.ui.Modifier
 fun AddWordButton(
     openDialog: () -> Unit,
     modifier: Modifier = Modifier
-){
+) {
     FloatingActionButton(
         onClick = openDialog,
         backgroundColor = MaterialTheme.colors.onPrimary

@@ -31,7 +31,7 @@ class WordRepository @Inject constructor(
     }
 
     private suspend fun addDefinition(definition: Definition, wordId: Long) {
-        if(definition.definitionId != null){
+        if (definition.definitionId != null) {
             defDao.update(definition)
             return
         }
@@ -59,8 +59,8 @@ class WordRepository @Inject constructor(
             }
         }
         val oldDefinitions = wordDao.getOneWithDefinitionsById(word.wordId).definitions
-        oldDefinitions.forEach{ def ->
-            if(wordWithDefinition.definitions.find { it.definitionId == def.definitionId } == null){
+        oldDefinitions.forEach { def ->
+            if (wordWithDefinition.definitions.find { it.definitionId == def.definitionId } == null) {
                 wordDefRefDao.deleteByDefinitionId(def.definitionId!!)
             }
         }

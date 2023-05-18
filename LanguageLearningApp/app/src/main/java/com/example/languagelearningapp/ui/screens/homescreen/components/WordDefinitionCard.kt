@@ -46,6 +46,7 @@ fun WordDefinitionRow(
         }
     }
 }
+
 @Composable
 fun WordDefinitionCard(
     list: List<WordWithDefinitions>,

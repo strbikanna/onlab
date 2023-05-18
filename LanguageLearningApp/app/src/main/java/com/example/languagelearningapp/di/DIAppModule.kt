@@ -21,18 +21,22 @@ class DIAppModule {
     fun provideWordDao(
         db: AppDatabase
     ) = db.wordDao()
+
     @Provides
     fun provideDefinitionDao(
         db: AppDatabase
     ) = db.definitionDao()
+
     @Provides
     fun provideStudyCollectionDao(
         db: AppDatabase
     ) = db.studyCollectionDao()
+
     @Provides
     fun provideWordCollectionDao(
         db: AppDatabase
     ) = db.wordCollectionDao()
+
     @Provides
     fun provideWordDefinitionDao(
         db: AppDatabase

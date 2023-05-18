@@ -7,12 +7,14 @@ import androidx.room.RoomDatabase
 import com.example.languagelearningapp.dao.*
 import com.example.languagelearningapp.model.*
 
-@Database(entities = [Word::class,
-    Definition::class,
-    StudyCollection::class,
-    WordCollectionCrossRef::class,
-    WordDefinitionCrossRef::class],
-    version = 1)
+@Database(
+    entities = [Word::class,
+        Definition::class,
+        StudyCollection::class,
+        WordCollectionCrossRef::class,
+        WordDefinitionCrossRef::class],
+    version = 1
+)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun wordDao(): WordDao
     abstract fun definitionDao(): DefinitionDao

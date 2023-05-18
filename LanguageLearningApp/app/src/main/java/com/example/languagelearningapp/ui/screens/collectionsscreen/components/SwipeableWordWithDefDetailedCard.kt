@@ -25,16 +25,17 @@ import java.util.*
 import kotlin.math.roundToInt
 
 
-const val ANIMATION_DURATION = 500
-const val CARD_OFFSET = 500f
-const val MIN_DRAG_AMOUNT = 6
+private const val ANIMATION_DURATION = 500
+private const val CARD_OFFSET = 500f
+private const val MIN_DRAG_AMOUNT = 6
+
 @SuppressLint("UnusedTransitionTargetStateParameter")
 @Composable
 private fun WordWithDefDetailedCard(
     wordWithDefinitions: WordWithDefinitions,
     modifier: Modifier = Modifier
 ) {
-    var isRevealed by remember{ mutableStateOf(false) }
+    var isRevealed by remember { mutableStateOf(false) }
     val transitionState = remember {
         MutableTransitionState(isRevealed).apply {
             targetState = !isRevealed
@@ -45,7 +46,8 @@ private fun WordWithDefDetailedCard(
         label = "cardOffsetTransition",
         transitionSpec = { tween(durationMillis = ANIMATION_DURATION) },
         targetValueByState = {
-            if (isRevealed) CARD_OFFSET  else 0f },
+            if (isRevealed) CARD_OFFSET else 0f
+        },
     )
     var expanded by remember { mutableStateOf(false) }
     Card(
@@ -68,13 +70,13 @@ private fun WordWithDefDetailedCard(
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier.weight(1f)
-            ){
+            ) {
                 Text(
                     text = wordWithDefinitions.word.expression,
                     style = MaterialTheme.typography.body1,
                     modifier = Modifier.padding(horizontal = 20.dp)
                 )
-                if(expanded){
+                if (expanded) {
                     Text(
                         text = wordWithDefinitions.word.wordClass?.name?.lowercase() ?: "",
                         style = MaterialTheme.typography.body2,
@@ -124,22 +126,23 @@ private fun WordWithDefDetailedCard(
         }
     }
 }
+
 @Composable
 fun SwipeableWordWithDefDetailedCard(
     wordWithDefinitions: WordWithDefinitions,
-    onDelete: (WordWithDefinitions)-> Unit = {},
-    onEdit: (WordWithDefinitions)-> Unit = {},
-    onFavorite: (WordWithDefinitions, Boolean)-> Unit = {_1,_2 -> },
+    onDelete: (WordWithDefinitions) -> Unit = {},
+    onEdit: (WordWithDefinitions) -> Unit = {},
+    onFavorite: (WordWithDefinitions, Boolean) -> Unit = { _1, _2 -> },
     modifier: Modifier = Modifier
-){
+) {
     Box(
         modifier = modifier
-    ){
+    ) {
         ActionsRow(
             favorite = wordWithDefinitions.word.favorite,
-            onDelete = { onDelete(wordWithDefinitions)},
-            onEdit = {onEdit(wordWithDefinitions)},
-            onFavorite= {favorite -> onFavorite(wordWithDefinitions, favorite)},
+            onDelete = { onDelete(wordWithDefinitions) },
+            onEdit = { onEdit(wordWithDefinitions) },
+            onFavorite = { favorite -> onFavorite(wordWithDefinitions, favorite) },
             modifier = modifier.height(100.dp)
         )
         WordWithDefDetailedCard(
@@ -149,20 +152,21 @@ fun SwipeableWordWithDefDetailedCard(
     }
 
 }
+
 @Composable
 fun ActionsRow(
     favorite: Boolean,
-    onDelete: ()-> Unit,
-    onEdit: ()-> Unit,
-    onFavorite: (Boolean)-> Unit,
+    onDelete: () -> Unit,
+    onEdit: () -> Unit,
+    onFavorite: (Boolean) -> Unit,
     modifier: Modifier = Modifier
-){
-    var tappedFavorite by remember{ mutableStateOf(favorite) }
+) {
+    var tappedFavorite by remember { mutableStateOf(favorite) }
     Row(
         horizontalArrangement = Arrangement.Start,
         verticalAlignment = Alignment.CenterVertically,
         modifier = modifier
-    ){
+    ) {
         IconButton(onClick = { onDelete() }) {
             Icon(
                 Icons.Default.Delete,
@@ -178,11 +182,11 @@ fun ActionsRow(
             )
         }
         IconButton(onClick = {
-            tappedFavorite = ! tappedFavorite
+            tappedFavorite = !tappedFavorite
             onFavorite(tappedFavorite)
         }) {
             var icon = Icons.Outlined.StarOutline
-            if(tappedFavorite)
+            if (tappedFavorite)
                 icon = Icons.Default.Star
             Icon(
                 icon,

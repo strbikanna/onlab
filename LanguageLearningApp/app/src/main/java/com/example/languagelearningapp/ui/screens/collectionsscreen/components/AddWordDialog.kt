@@ -165,7 +165,7 @@ fun WordClassDropdown(
     else
         Icons.Filled.KeyboardArrowDown
 
-    Column(Modifier.padding(20.dp)) {
+    Column {
         OutlinedTextField(
             value = selectedValue,
             onValueChange = { selectedValue = it },
@@ -176,7 +176,8 @@ fun WordClassDropdown(
             trailingIcon = {
                 Icon(icon, "",
                     Modifier.clickable { isExpanded = !isExpanded })
-            }
+            },
+            readOnly = true
         )
         DropdownMenu(
             expanded = isExpanded,

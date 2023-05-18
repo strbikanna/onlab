@@ -12,9 +12,10 @@ data class Word(
     val wordClass: WordClass? = null,
     val favorite: Boolean = false,
     val learned: Boolean = false,
-){
+) {
     enum class WordClass {
         NOUN, VERB, ADJECTIVE;
+
         companion object {
             @JvmStatic
             @TypeConverter

@@ -17,7 +17,7 @@ fun HeaderWithTitle(
     title: String = "Study Sets",
     onBackPressed: () -> Unit,
     modifier: Modifier = Modifier
-){
+) {
     TopAppBar(
         title = {
             Text(text = title)

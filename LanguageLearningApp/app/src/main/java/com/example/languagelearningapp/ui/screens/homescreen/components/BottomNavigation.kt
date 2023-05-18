@@ -17,10 +17,10 @@ import com.example.languagelearningapp.navigation.Screen
 
 @Composable
 fun BottomNavigationBar(
-    onClickHome: ()->Unit,
-    onClickCamera: ()->Unit,
-    onClickCollections: ()->Unit,
-    onClickDocuments: ()->Unit,
+    onClickHome: () -> Unit,
+    onClickCamera: () -> Unit,
+    onClickCollections: () -> Unit,
+    onClickDocuments: () -> Unit,
     currentDestination: NavDestination?,
     modifier: Modifier = Modifier
 ) {

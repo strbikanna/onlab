@@ -34,7 +34,6 @@ class WordCollectionViewModel @Inject constructor(
     var allCollections: StateFlow<List<StudyCollection>> = _allCollections
     var allWords: MediatorLiveData<List<WordWithDefinitions>> = _allWords
 
-
     var openDialog by mutableStateOf(false)
 
     init {
@@ -44,13 +43,15 @@ class WordCollectionViewModel @Inject constructor(
             _allCollections.value = repo.getAllCollections()
             Log.v("VIEWMODEL", "initialized data")
         }
-        _allWords.addSource(collection
+        _allWords.addSource(
+            collection
         ) {
-            if(it.collectionId != null)
+            if (it.collectionId != null)
                 getAllWordsInStudyCollection(it)
         }
     }
-    fun setUpForCollection(id: Long){
+
+    fun setUpForCollection(id: Long) {
         getCollectionById(id)
     }
 
@@ -58,9 +59,14 @@ class WordCollectionViewModel @Inject constructor(
         word = repo.getWordById(id)
     }
 
-    fun addWord(wordWithDefinitions: WordWithDefinitions) = viewModelScope.launch {
-        repo.addWordToCollection(wordWithDefinitions, collection.value!!)
-        reloadWords()
+    fun addWordToCollection(wordWithDefinitions: WordWithDefinitions, collection: StudyCollection) =
+        viewModelScope.launch {
+            repo.addWordToCollection(wordWithDefinitions, collection)
+            reloadWords()
+        }
+
+    fun addCollection(collection: StudyCollection) = viewModelScope.launch {
+        repo.addCollection(collection)
     }
 
     fun updateWord(word: Word) = viewModelScope.launch {
@@ -96,7 +102,7 @@ class WordCollectionViewModel @Inject constructor(
 
     private suspend fun reloadWords() {
         Log.v("VIEWMODEL", "reload words")
-        if(collection.value != null && collection.value!!.collectionId != null){
+        if (collection.value != null && collection.value!!.collectionId != null) {
             _allWords.value = (repo.getWordsInCollection(collection.value!!))
         }
         Log.v("VIEWMODEL", "new data loaded")
