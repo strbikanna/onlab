@@ -18,9 +18,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.viewinterop.AndroidView
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.languagelearningapp.ui.permissions.CameraPermissionManager
 import com.example.languagelearningapp.ui.screens.camerascreen.components.CapturedImageCache
-import com.example.languagelearningapp.ui.screens.camerascreen.components.TextRecognizerScreen
 import com.example.languagelearningapp.ui.view_model.CameraViewModel
 
 
@@ -33,7 +33,7 @@ fun CameraScreen(
     bottomBar: @Composable () -> Unit,
     topBar: @Composable (title: String) -> Unit,
     onCaptureSuccess: (String) -> Unit,
-    viewModel: CameraViewModel = CameraViewModel()
+    viewModel: CameraViewModel = hiltViewModel()
 ) {
     CameraPermissionManager()
     val lifecycleOwner = LocalLifecycleOwner.current
@@ -69,10 +69,12 @@ fun CameraScreen(
     }
     if (captureSuccess == true && image != null) {
         CapturedImageCache.globalImageHolder[imageID] = image!!
+        viewModel.resetCaptureState()
         Log.d("CameraView", "Opening recognizer view.")
-        TextRecognizerScreen(imageId = imageID, onBack = {
+        /*TextRecognizerScreen(imageId = imageID, onBack = {
             reloadRequested = true
             viewModel.captureSuccess.value = false
-        })
+        })*/
+        onCaptureSuccess(imageID)
     }
 }

@@ -32,10 +32,15 @@ class CameraViewModel  :ViewModel() {
         }, ContextCompat.getMainExecutor(context))
     }
 
-    fun capturePicture(context: Context){
+    fun resetCaptureState() {
+        capturedImage.value = null
+        captureSuccess.value = false
+    }
+
+    fun capturePicture(context: Context) {
         imageCapture.takePicture(
             ContextCompat.getMainExecutor(context),
-            object: OnImageCapturedCallback() {
+            object : OnImageCapturedCallback() {
                 override fun onCaptureSuccess(image: ImageProxy) {
                     Log.d("CameraModel", "Image capture success")
                     analyze(image)
