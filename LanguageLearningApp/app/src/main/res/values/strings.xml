@@ -29,4 +29,9 @@
     <string name="learned_filter">Unlearned</string>
     <string name="finish_practice">Finished!</string>
     <string name="learned_toast">Word learned!!</string>
+    <string name="new_coll_dropdown">New collection</string>
+    <string name="doc_screen_title">Text Images</string>
+    <string name="add_collection">Add new Study Collection</string>
+    <string name="add_coll_error_msg">Give a name to the collection</string>
+    <string name="coll_name">Study set name</string>
 </resources>

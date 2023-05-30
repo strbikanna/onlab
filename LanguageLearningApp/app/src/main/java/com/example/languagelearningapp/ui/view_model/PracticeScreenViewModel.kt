@@ -8,7 +8,7 @@ import com.example.languagelearningapp.model.StudyCollection
 import com.example.languagelearningapp.model.Word
 import com.example.languagelearningapp.model.WordWithDefinitions
 import com.example.languagelearningapp.repository.WordRepository
-import com.example.languagelearningapp.ui.screens.practicescreen.components.TransitionState
+import com.example.languagelearningapp.ui.screens.practice_screen.components.TransitionState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject

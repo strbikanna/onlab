@@ -77,7 +77,7 @@ class AppDatabaseTest : TestCase() {
         CoroutineScope(Dispatchers.Default + Job()).launch {
             val wordId = wordDao.add(testWord)
             val collId = collectionDao.add(coll)
-            wordCollectionDao.add(WordCollectionCrossRef(wordId, collId))
+            wordCollectionDao.save(WordCollectionCrossRef(wordId, collId))
             val collWithWords = collectionDao.getAllWithWords()
             assertTrue(collWithWords.isNotEmpty())
             val savedWord = collWithWords[0].words[0]
@@ -175,9 +175,9 @@ class AppDatabaseTest : TestCase() {
             wordDefinitionDao.add(WordDefinitionCrossRef(wordId2, defId1))
             wordDefinitionDao.add(WordDefinitionCrossRef(wordId3, defId2))
 
-            wordCollectionDao.add(WordCollectionCrossRef(wordId1, collId1))
-            wordCollectionDao.add(WordCollectionCrossRef(wordId2, collId1))
-            wordCollectionDao.add(WordCollectionCrossRef(wordId3, collId2))
+            wordCollectionDao.save(WordCollectionCrossRef(wordId1, collId1))
+            wordCollectionDao.save(WordCollectionCrossRef(wordId2, collId1))
+            wordCollectionDao.save(WordCollectionCrossRef(wordId3, collId2))
 
             assertEquals(2, wordDao.getAllByCollection(collId1).size)
             assertEquals(1, wordDao.getAllByCollection(collId2).size)

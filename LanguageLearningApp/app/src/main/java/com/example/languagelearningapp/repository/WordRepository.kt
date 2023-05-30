@@ -86,15 +86,22 @@ class WordRepository @Inject constructor(
 
     suspend fun getCollectionById(id: Long) = collDao.getById(id)
     suspend fun addWordToCollection(word: WordWithDefinitions, collection: StudyCollection) {
+        val wordId: Long
         if (word.word.wordId != null) {
+            wordId = word.word.wordId!!
             updateWord(word)
             return
+        } else {
+            wordId = wordDao.add(word.word)
+            word.definitions.forEach {
+                addDefinition(it, wordId)
+            }
         }
-        val wordId = wordDao.add(word.word)
-        word.definitions.forEach {
-            addDefinition(it, wordId)
+        val collId = if (collection.collectionId == null) {
+            addCollection(collection)
+        } else {
+            collDao.getById(collection.collectionId).collectionId!!
         }
-        val collId = collDao.getById(collection.collectionId!!).collectionId!!
-        wordCollRefDao.add(WordCollectionCrossRef(wordId, collId))
+        wordCollRefDao.save(WordCollectionCrossRef(wordId, collId))
     }
 }
