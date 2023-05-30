@@ -7,15 +7,15 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import com.example.languagelearningapp.ui.screens.camerascreen.CameraScreen
-import com.example.languagelearningapp.ui.screens.camerascreen.components.TextRecognizerScreen
-import com.example.languagelearningapp.ui.screens.collectionsscreen.CollectionsScreen
-import com.example.languagelearningapp.ui.screens.collectionsscreen.HeaderWithTitle
-import com.example.languagelearningapp.ui.screens.collectionsscreen.StudySetDetailedScreen
-import com.example.languagelearningapp.ui.screens.documentscreen.DocumentScreen
-import com.example.languagelearningapp.ui.screens.homescreen.HomeScreen
-import com.example.languagelearningapp.ui.screens.homescreen.components.BottomNavigationBar
-import com.example.languagelearningapp.ui.screens.practicescreen.PracticeScreen
+import com.example.languagelearningapp.ui.screens.camera_screen.CameraScreen
+import com.example.languagelearningapp.ui.screens.collections_screen.CollectionsScreen
+import com.example.languagelearningapp.ui.screens.collections_screen.HeaderWithTitle
+import com.example.languagelearningapp.ui.screens.collections_screen.StudySetDetailedScreen
+import com.example.languagelearningapp.ui.screens.document_screen.DocumentScreen
+import com.example.languagelearningapp.ui.screens.home_screen.HomeScreen
+import com.example.languagelearningapp.ui.screens.home_screen.components.BottomNavigationBar
+import com.example.languagelearningapp.ui.screens.practice_screen.PracticeScreen
+import com.example.languagelearningapp.ui.screens.text_recognizer_screen.TextRecognizerScreen
 
 const val COLL_ID = "collId"
 private const val IMAGE_ID = "im_key"
@@ -128,6 +128,9 @@ fun NavGraph(
                 bottomBar = { createBottomBar(navController) },
                 topBar = { title ->
                     HeaderWithTitle(title = title, onBackPressed = { navController.popBackStack() })
+                },
+                onImageClick = { imageId ->
+                    navigateTo(navController, "${Screen.TextRecognizerScreen.route}/$imageId")
                 }
             )
         }

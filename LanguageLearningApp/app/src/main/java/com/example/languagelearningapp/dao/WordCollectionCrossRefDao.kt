@@ -1,15 +1,12 @@
 package com.example.languagelearningapp.dao
 
-import androidx.room.Dao
-import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.Query
+import androidx.room.*
 import com.example.languagelearningapp.model.WordCollectionCrossRef
 
 @Dao
 interface WordCollectionCrossRefDao {
-    @Insert
-    suspend fun add(crossRef: WordCollectionCrossRef)
+    @Upsert
+    suspend fun save(crossRef: WordCollectionCrossRef)
 
     @Delete
     suspend fun delete(crossRef: WordCollectionCrossRef)
@@ -32,4 +29,5 @@ interface WordCollectionCrossRefDao {
                 "WHERE collectionId = :oldCollectionId"
     )
     suspend fun moveWordsToCollection(oldCollectionId: Long, newCollectionId: Long)
+
 }

@@ -37,11 +37,8 @@ class WordCollectionViewModel @Inject constructor(
     var openDialog by mutableStateOf(false)
 
     init {
-        Log.v("VIEWMODEL", "entered initblock")
         viewModelScope.launch {
-            Log.v("VIEWMODEL", "entered threadblock")
             _allCollections.value = repo.getAllCollections()
-            Log.v("VIEWMODEL", "initialized data")
         }
         _allWords.addSource(
             collection
