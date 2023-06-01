@@ -2,11 +2,10 @@ package com.example.languagelearningapp.ui.screens.text_recognizer_screen.compon
 
 import android.graphics.Bitmap
 import android.util.Log
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Save
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -22,7 +21,7 @@ fun SaveImageButton(
 ) {
     var isSaved by remember { mutableStateOf(false) }
     val context = LocalContext.current
-    IconButton(
+    OutlinedButton(
         onClick = {
             if (!isSaved) {
                 try {
@@ -37,7 +36,6 @@ fun SaveImageButton(
     ) {
         Icon(
             Icons.Default.Save, "",
-            modifier = Modifier.fillMaxSize()
         )
     }
 

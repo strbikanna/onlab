@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -16,11 +17,12 @@ import com.example.languagelearningapp.model.Definition
 import com.example.languagelearningapp.model.Word
 import com.example.languagelearningapp.model.WordWithDefinitions
 import com.example.languagelearningapp.ui.common.AddButton
-import com.example.languagelearningapp.ui.screens.home_screen.components.BottomNavigationBar
+import com.example.languagelearningapp.ui.common.BottomNavigationBar
 import com.example.languagelearningapp.ui.screens.home_screen.components.HomeHeader
 import com.example.languagelearningapp.ui.screens.home_screen.components.WordDefinitionCard
 import com.example.languagelearningapp.ui.theme.LanguageLearningAppTheme
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Preview
 @Composable
 fun HomeScreenPreView(

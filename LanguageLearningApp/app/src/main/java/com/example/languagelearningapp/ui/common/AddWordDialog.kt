@@ -1,4 +1,4 @@
-package com.example.languagelearningapp.ui.screens.collections_screen.components
+package com.example.languagelearningapp.ui.common
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -19,7 +19,6 @@ import com.example.languagelearningapp.R
 import com.example.languagelearningapp.model.Definition
 import com.example.languagelearningapp.model.Word
 import com.example.languagelearningapp.model.WordWithDefinitions
-import com.example.languagelearningapp.ui.common.TranslationComponent
 import com.example.languagelearningapp.ui.theme.LanguageLearningAppTheme
 import kotlinx.coroutines.job
 
@@ -152,13 +151,14 @@ fun AddWordDialog(
 @Composable
 fun WordClassDropdown(
     setWordClass: (Word.WordClass) -> Unit,
+    initialWordClass: Word.WordClass? = null,
     modifier: Modifier = Modifier
 ) {
     var isExpanded by remember { mutableStateOf(false) }
 
     val wordClasses = Word.WordClass.values()
 
-    var selectedValue by remember { mutableStateOf("") }
+    var selectedValue by remember { mutableStateOf(initialWordClass?.name ?: "") }
 
     val icon = if (isExpanded)
         Icons.Default.KeyboardArrowUp

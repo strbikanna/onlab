@@ -24,7 +24,6 @@ import com.example.languagelearningapp.R
 import com.example.languagelearningapp.model.Definition
 import com.example.languagelearningapp.model.StudyCollection
 import com.example.languagelearningapp.model.WordWithDefinitions
-import com.example.languagelearningapp.ui.screens.collections_screen.components.WordClassDropdown
 import com.example.languagelearningapp.ui.view_model.WordCollectionViewModel
 import kotlinx.coroutines.job
 
@@ -34,12 +33,17 @@ fun AddWordToCollectionDialog(
     openDialog: Boolean,
     closeDialog: () -> Unit,
     initialWordWithDefinitions: WordWithDefinitions,
+    defaultCollection: StudyCollection? = null,
     viewModel: WordCollectionViewModel = hiltViewModel()
 ) {
     if (!openDialog)
         return
     var word by remember { mutableStateOf(initialWordWithDefinitions.word) }
-    var selectedCollection: StudyCollection by remember { mutableStateOf(StudyCollection(name = "")) }
+    var selectedCollection: StudyCollection by remember {
+        mutableStateOf(
+            defaultCollection ?: StudyCollection(name = "")
+        )
+    }
     var translatedDefinition by remember { mutableStateOf(Definition(description = "")) }
     val definitions = remember { mutableStateListOf(Definition(description = "")) }.apply {
         clear()
@@ -132,12 +136,15 @@ fun AddWordToCollectionDialog(
                         Text("Select word class: ", modifier = Modifier.padding(top = 15.dp))
                         WordClassDropdown(
                             setWordClass = { wc -> word = word.copy(wordClass = wc) },
+                            initialWordClass = initialWordWithDefinitions.word.wordClass
                         )
-                        Text("Add to study set: ", modifier = Modifier.padding(top = 15.dp))
-                        CollectionDropdown(
-                            collections = collections,
-                            onSelected = { selectedCollection = it }
-                        )
+                        if (defaultCollection == null) {
+                            Text("Add to study set: ", modifier = Modifier.padding(top = 15.dp))
+                            CollectionDropdown(
+                                collections = collections,
+                                onSelected = { selectedCollection = it }
+                            )
+                        }
                     }
                     itemsIndexed(definitions) { i, def ->
                         OutlinedTextField(

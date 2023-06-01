@@ -10,10 +10,11 @@ import androidx.compose.ui.Modifier
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HeaderWithTitle(
+fun CollapsingTopAppBar(
     title: String,
     onBackPressed: () -> Unit,
     modifier: Modifier = Modifier,
+    scrollBehavior: TopAppBarScrollBehavior
 ) {
     TopAppBar(
         title = {
@@ -26,6 +27,10 @@ fun HeaderWithTitle(
                 Icon(Icons.Filled.ArrowBack, "backIcon")
             }
         },
+        scrollBehavior = scrollBehavior,
+        /*colors = TopAppBarDefaults.mediumTopAppBarColors(
+            containerColor = MaterialTheme.colors.primary,
+        ),*/
         modifier = modifier
     )
 }

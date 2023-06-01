@@ -1,4 +1,4 @@
-package com.example.languagelearningapp.ui.screens.collections_screen.components
+package com.example.languagelearningapp.ui.screens.collections_detailed_screen.components
 
 import android.annotation.SuppressLint
 import androidx.compose.animation.core.*
@@ -9,7 +9,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
-import androidx.compose.material.icons.outlined.StarOutline
 import androidx.compose.material3.Card
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -149,51 +148,6 @@ fun SwipeableWordWithDefDetailedCard(
             wordWithDefinitions = wordWithDefinitions,
             modifier = modifier.height(100.dp)
         )
-    }
-
-}
-
-@Composable
-fun ActionsRow(
-    favorite: Boolean,
-    onDelete: () -> Unit,
-    onEdit: () -> Unit,
-    onFavorite: (Boolean) -> Unit,
-    modifier: Modifier = Modifier
-) {
-    var tappedFavorite by remember { mutableStateOf(favorite) }
-    Row(
-        horizontalArrangement = Arrangement.Start,
-        verticalAlignment = Alignment.CenterVertically,
-        modifier = modifier
-    ) {
-        IconButton(onClick = { onDelete() }) {
-            Icon(
-                Icons.Default.Delete,
-                contentDescription = "delete",
-                tint = MaterialTheme.colors.primaryVariant,
-            )
-        }
-        IconButton(onClick = { onEdit() }) {
-            Icon(
-                Icons.Default.Edit,
-                contentDescription = "edit",
-                tint = MaterialTheme.colors.primaryVariant,
-            )
-        }
-        IconButton(onClick = {
-            tappedFavorite = !tappedFavorite
-            onFavorite(tappedFavorite)
-        }) {
-            var icon = Icons.Outlined.StarOutline
-            if (tappedFavorite)
-                icon = Icons.Default.Star
-            Icon(
-                icon,
-                contentDescription = "favorite",
-                tint = MaterialTheme.colors.primaryVariant,
-            )
-        }
     }
 
 }

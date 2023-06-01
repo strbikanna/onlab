@@ -148,6 +148,31 @@ class AppDatabaseTest : TestCase() {
     }
 
     @Test
+    fun getWordsByFavorite() {
+        val testWord1 = Word(
+            expression = "fav word",
+            favorite = true
+        )
+        val testWord2 = Word(
+            expression = "not fav word",
+        )
+        val def = Definition(description = "meaning of test word")
+        CoroutineScope(Dispatchers.Default + Job()).launch {
+            val wordId1 = wordDao.add(testWord1)
+            val wordId2 = wordDao.add(testWord2)
+            val defId = definitionDao.add(def)
+
+            wordDefinitionDao.add(WordDefinitionCrossRef(wordId1, defId))
+            wordDefinitionDao.add(WordDefinitionCrossRef(wordId2, defId))
+
+            val wordList = wordDao.getAllOrdered()
+            assertTrue(wordList.isNotEmpty())
+            assertEquals(1, wordList.filter { w -> w.favorite }.size)
+
+        }
+    }
+
+    @Test
     fun getWordWithDefinitionsByCollection() {
         val testWord1 = Word(
             expression = "test word",
