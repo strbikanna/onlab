@@ -20,7 +20,7 @@ fun WordDefinitionRow(
 ) {
     Surface(
         modifier = modifier,
-        color = MaterialTheme.colors.primary,
+        //color = MaterialTheme.colors.primary,
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,

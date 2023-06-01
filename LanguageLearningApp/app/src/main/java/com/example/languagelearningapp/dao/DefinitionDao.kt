@@ -15,8 +15,8 @@ interface DefinitionDao {
     suspend fun update(def: Definition)
 
     @Query("SELECT * FROM Definition WHERE description = :description")
-    suspend fun getByDescription(description: String): Definition
+    suspend fun getByDescription(description: String): Definition?
 
     @Query("SELECT * FROM Definition WHERE definitionId = :id")
-    suspend fun getById(id: Long): Definition
+    suspend fun getById(id: Long): Definition?
 }

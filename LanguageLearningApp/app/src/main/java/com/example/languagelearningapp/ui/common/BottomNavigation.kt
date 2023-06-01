@@ -1,15 +1,17 @@
-package com.example.languagelearningapp.ui.screens.home_screen.components
+package com.example.languagelearningapp.ui.common
 
-import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Camera
 import androidx.compose.material.icons.filled.DocumentScanner
 import androidx.compose.material.icons.filled.Folder
 import androidx.compose.material.icons.filled.Home
+import androidx.compose.material3.Icon
+import androidx.compose.material3.NavigationBar
+import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
 import com.example.languagelearningapp.R
@@ -24,13 +26,10 @@ fun BottomNavigationBar(
     currentDestination: NavDestination?,
     modifier: Modifier = Modifier
 ) {
-    BottomNavigation(
-        elevation = 10.dp,
-        contentColor = MaterialTheme.colors.primaryVariant,
-        backgroundColor = MaterialTheme.colors.primary,
+    NavigationBar(
         modifier = modifier
     ) {
-        BottomNavigationItem(icon = {
+        NavigationBarItem(icon = {
             Icon(imageVector = Icons.Default.Home, "")
         },
             label = { Text(text = stringResource(R.string.HomeIconText)) },
@@ -41,7 +40,7 @@ fun BottomNavigationBar(
             modifier = Modifier.weight(1f)
         )
 
-        BottomNavigationItem(icon = {
+        NavigationBarItem(icon = {
             Icon(imageVector = Icons.Default.Camera, "")
         },
             label = { Text(text = stringResource(R.string.PhotoIconText)) },
@@ -52,7 +51,7 @@ fun BottomNavigationBar(
             modifier = Modifier.weight(1f)
         )
 
-        BottomNavigationItem(icon = {
+        NavigationBarItem(icon = {
             Icon(imageVector = Icons.Default.DocumentScanner, "")
         },
             label = { Text(text = stringResource(R.string.DocumentsIconText)) },
@@ -62,7 +61,7 @@ fun BottomNavigationBar(
             },
             modifier = Modifier.weight(1f)
         )
-        BottomNavigationItem(icon = {
+        NavigationBarItem(icon = {
             Icon(imageVector = Icons.Default.Folder, "")
         },
             label = { Text(text = stringResource(R.string.StudySetIconText)) },

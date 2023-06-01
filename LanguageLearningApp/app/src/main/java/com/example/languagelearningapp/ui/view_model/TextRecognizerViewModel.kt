@@ -29,7 +29,7 @@ class TextRecognizerViewModel : ViewModel() {
         return bitmap
     }
 
-    fun getWordByPosition(position: Offset) {
+    fun getWordByPosition(position: Offset): String {
         var word = ""
         for (block in resultText.value!!.text!!.textBlocks) {
             for (line in block.lines) {
@@ -49,6 +49,7 @@ class TextRecognizerViewModel : ViewModel() {
                 break
         }
         Log.d("TextModel", "Word found: $word")
+        return word
     }
 
     private fun processImage() {

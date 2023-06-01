@@ -9,8 +9,7 @@ import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.LinearProgressIndicator
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -18,6 +17,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.languagelearningapp.R
 import com.example.languagelearningapp.model.CapturedImageCache
+import com.example.languagelearningapp.model.Word
+import com.example.languagelearningapp.model.WordWithDefinitions
+import com.example.languagelearningapp.ui.common.AddWordToCollectionDialog
 import com.example.languagelearningapp.ui.screens.camera_screen.components.ErrorWarnText
 import com.example.languagelearningapp.ui.screens.text_recognizer_screen.components.ZoomableTextOnImage
 import com.example.languagelearningapp.ui.view_model.TextRecognizerViewModel
@@ -40,6 +42,8 @@ fun TextRecognizerScreen(
     Log.d("TEXTVIEW", "Inputimage size: ${inputImage.width}, ${inputImage.height}")
 
     val recognizedText by textViewModel.resultText.observeAsState()
+    var chosenText by remember { mutableStateOf("") }
+    var isNewTextChosen by remember { mutableStateOf(false) }
 
     Scaffold(
         topBar = {
@@ -55,9 +59,12 @@ fun TextRecognizerScreen(
                     }
                     if (recognizedText?.text == null) {
                         Text("Processing image...")
-                    } else (
-                            Text("Tap to select recognized words")
-                            )
+                    } else if (recognizedText?.text?.textBlocks?.size == 0) {
+                        Text("No text elements are recognized on picture.")
+                    } else {
+                        Text("Tap to select recognized words")
+                    }
+
                 }
                 if (recognizedText?.text == null) {
                     LinearProgressIndicator(Modifier.fillMaxWidth())
@@ -81,10 +88,22 @@ fun TextRecognizerScreen(
             ZoomableTextOnImage(
                 text = recognizedText?.text,
                 image = textViewModel.getImageToShow(inputImage),
-                onWordClicked = { position -> textViewModel.getWordByPosition(position) },
+                onWordClicked = { position ->
+                    chosenText = textViewModel.getWordByPosition(position)
+                    isNewTextChosen = true
+                },
             )
         }
     }
+    val initialWord = WordWithDefinitions(
+        word = Word(expression = chosenText),
+        definitions = listOf()
+    )
+    AddWordToCollectionDialog(
+        openDialog = isNewTextChosen,
+        closeDialog = { isNewTextChosen = false },
+        initialWordWithDefinitions = initialWord
+    )
 }
 
 

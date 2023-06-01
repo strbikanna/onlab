@@ -1,5 +1,6 @@
 package com.example.languagelearningapp.ui.screens.text_recognizer_screen.components
 
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.gestures.rememberTransformableState
 import androidx.compose.foundation.gestures.transformable
 import androidx.compose.foundation.layout.*
@@ -11,6 +12,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asAndroidBitmap
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.languagelearningapp.ui.view_model.ImageTransformationViewModel
@@ -45,6 +47,14 @@ fun ZoomableTextOnImage(
                 )
                 .transformable(state = state)
                 .wrapContentHeight()
+                .pointerInput(Unit) {
+                    detectTapGestures { offset ->
+                        android.util.Log.d("BOX", "Detected tap at: ${offset.x}, ${offset.y}")
+                        val x = offset.x / viewModel.scaleFactorX.value!!
+                        val y = offset.y / viewModel.scaleFactorY.value!!
+                        onWordClicked(Offset(x, y))
+                    }
+                }
         ) {
             ImageContent(
                 image = image,
@@ -61,25 +71,27 @@ fun ZoomableTextOnImage(
                     highlightColor = highlightColor
                 )
             }
+
         }
-        Row(
-            horizontalArrangement = Arrangement.SpaceBetween
+        Column(
+            verticalArrangement = Arrangement.SpaceEvenly,
+            horizontalAlignment = Alignment.End,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 25.dp)
         ) {
             ColorPicker(
                 onColorChoose = { color ->
                     highlightColor = color
                 },
                 modifier = Modifier
-                    .weight(3f)
-                    .height(50.dp)
-                    .padding(start = 15.dp)
+                    .height(60.dp)
+                    .padding(vertical = 10.dp)
             )
             SaveImageButton(
                 image = image.asAndroidBitmap(),
                 modifier = Modifier
-                    .weight(1f)
-                    .height(50.dp)
-                    .padding(end = 15.dp)
+                    .heightIn(max = 60.dp)
             )
         }
 

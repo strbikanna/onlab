@@ -9,11 +9,11 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.FabPosition
-import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
 import androidx.compose.material.Scaffold
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Lens
+import androidx.compose.material.icons.filled.Circle
+import androidx.compose.material3.FloatingActionButton
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
@@ -55,10 +55,11 @@ fun CameraScreen(
         topBar = { topBar("Capture text") },
         bottomBar = { bottomBar() },
         floatingActionButton = {
-            FloatingActionButton(onClick = {
-                viewModel.capturePicture(context)
-            }) {
-                Icon(Icons.Default.Lens, "")
+            FloatingActionButton(
+                onClick = {
+                    viewModel.capturePicture(context)
+                }) {
+                Icon(Icons.Default.Circle, "")
             }
         },
         floatingActionButtonPosition = FabPosition.Center,

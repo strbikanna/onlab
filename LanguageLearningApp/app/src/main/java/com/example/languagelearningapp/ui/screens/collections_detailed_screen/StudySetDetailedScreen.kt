@@ -1,4 +1,4 @@
-package com.example.languagelearningapp.ui.screens.collections_screen
+package com.example.languagelearningapp.ui.screens.collections_detailed_screen
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -8,9 +8,13 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.FabPosition
 import androidx.compose.material.Scaffold
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.languagelearningapp.model.Definition
@@ -18,15 +22,16 @@ import com.example.languagelearningapp.model.Word
 import com.example.languagelearningapp.model.WordWithDefinitions
 import com.example.languagelearningapp.ui.common.AddButton
 import com.example.languagelearningapp.ui.common.AddWordToCollectionDialog
-import com.example.languagelearningapp.ui.screens.collections_screen.components.StudySetUseCaseControls
-import com.example.languagelearningapp.ui.screens.collections_screen.components.SwipeableWordWithDefDetailedCard
+import com.example.languagelearningapp.ui.screens.collections_detailed_screen.components.StudySetTopAppBar
+import com.example.languagelearningapp.ui.screens.collections_detailed_screen.components.SwipeableWordWithDefDetailedCard
 import com.example.languagelearningapp.ui.view_model.WordCollectionViewModel
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun StudySetDetailedScreen(
     studySetId: Long,
     bottomBar: @Composable () -> Unit,
-    topBar: @Composable (title: String) -> Unit,
+    onBack: () -> Unit,
     onPractice: (Long) -> Unit,
     viewModel: WordCollectionViewModel = hiltViewModel()
 ) {
@@ -41,24 +46,29 @@ fun StudySetDetailedScreen(
             )
         )
     }
+    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
     Scaffold(
-        topBar = { topBar(collection?.name ?: "") },
+        topBar = {
+            StudySetTopAppBar(
+                title = collection?.name ?: "",
+                onBackPressed = { onBack() },
+                onFavorites = { favorite -> viewModel.filterFavoriteWords(favorite) },
+                onPractice = { onPractice(collection?.collectionId!!) },
+                onUnlearned = { learned -> viewModel.filterLearnedWords(learned) },
+                scrollBehavior = scrollBehavior
+            )
+        },
         bottomBar = { bottomBar() },
         floatingActionButton = { AddButton({ viewModel.openDialog() }) },
         floatingActionButtonPosition = FabPosition.Center,
-        isFloatingActionButtonDocked = true
+        isFloatingActionButtonDocked = true,
+        modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
     ) { padding ->
         Column(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(padding)
         ) {
-            StudySetUseCaseControls(
-                onPractice = { onPractice(studySetId) },
-                onFavorites = { /*TODO*/ },
-                onUnLearned = { /*TODO*/ },
-                modifier = Modifier.weight(1f)
-            )
             LazyColumn(
                 verticalArrangement = Arrangement.spacedBy(3.dp),
                 modifier = Modifier.weight(9f)
@@ -81,15 +91,10 @@ fun StudySetDetailedScreen(
         }
 
     }
-    /*AddWordDialog(
-        openDialog = viewModel.openDialog,
-        closeDialog = { viewModel.closeDialog() },
-        addWord = { word -> viewModel.addWordToCollection(word, collection!!) },
-        initialWordWithDefinitions = wordToEdit
-    )*/
     AddWordToCollectionDialog(
         openDialog = viewModel.openDialog,
         closeDialog = { viewModel.closeDialog() },
-        initialWordWithDefinitions = wordToEdit
+        initialWordWithDefinitions = wordToEdit,
+        defaultCollection = collection
     )
 }

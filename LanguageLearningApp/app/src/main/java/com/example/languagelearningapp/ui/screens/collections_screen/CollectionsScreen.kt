@@ -7,20 +7,27 @@ import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Folder
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.languagelearningapp.R
 import com.example.languagelearningapp.ui.common.AddButton
+import com.example.languagelearningapp.ui.common.CollapsingTopAppBar
 import com.example.languagelearningapp.ui.screens.collections_screen.components.AddCollectionDialog
 import com.example.languagelearningapp.ui.view_model.WordCollectionViewModel
 
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CollectionsScreen(
     bottomBar: @Composable () -> Unit,
-    topBar: @Composable (title: String) -> Unit,
+    onBack: () -> Unit,
     navigateDetailedCollection: (collectionId: Long) -> Unit,
     viewModel: WordCollectionViewModel = hiltViewModel()
 ) {
@@ -28,9 +35,14 @@ fun CollectionsScreen(
         initial = emptyList()
     )
     var openDialog by remember { mutableStateOf(false) }
+    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
     Scaffold(
         topBar = {
-            topBar("Study Sets")
+            CollapsingTopAppBar(
+                title = stringResource(R.string.doc_screen_title),
+                onBackPressed = { onBack() },
+                scrollBehavior = scrollBehavior
+            )
         },
         bottomBar = {
             bottomBar()
@@ -61,7 +73,7 @@ fun CollectionsScreen(
                         Icon(
                             Icons.Default.Folder,
                             contentDescription = "studySet",
-                            tint = MaterialTheme.colors.primaryVariant,
+                            //tint = MaterialTheme.colors.primarySurface,
                             modifier = Modifier.fillMaxSize()
                         )
                     }

@@ -11,7 +11,6 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.languagelearningapp.R
 import com.example.languagelearningapp.translation.TranslatorViewModel
-import com.example.languagelearningapp.ui.screens.collections_screen.components.Dropdown
 
 
 @Composable

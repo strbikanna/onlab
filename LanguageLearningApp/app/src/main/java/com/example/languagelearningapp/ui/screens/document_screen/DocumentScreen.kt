@@ -9,10 +9,12 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -20,19 +22,29 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.languagelearningapp.R
 import com.example.languagelearningapp.model.CapturedImageCache
+import com.example.languagelearningapp.ui.common.CollapsingTopAppBar
 import com.example.languagelearningapp.ui.view_model.ImagePersistViewModel
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DocumentScreen(
     bottomBar: @Composable () -> Unit,
-    topBar: @Composable (title: String) -> Unit,
+    onBack: () -> Unit,
     onImageClick: (String) -> Unit,
     viewModel: ImagePersistViewModel = hiltViewModel()
 ) {
     val context = LocalContext.current
+    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
     Scaffold(
-        topBar = { topBar(stringResource(R.string.doc_screen_title)) },
-        bottomBar = { bottomBar() }
+        topBar = {
+            CollapsingTopAppBar(
+                title = stringResource(R.string.doc_screen_title),
+                onBackPressed = { onBack() },
+                scrollBehavior = scrollBehavior
+            )
+        },
+        bottomBar = { bottomBar() },
+        modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
     ) { padding ->
         if (viewModel.canUseThumbnail()) {
             val thumbnails = viewModel.loadAllThumbnails(context)

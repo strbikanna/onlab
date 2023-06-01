@@ -1,6 +1,5 @@
 package com.example.languagelearningapp.ui.view_model
 
-import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -22,7 +21,6 @@ import javax.inject.Inject
 class WordCollectionViewModel @Inject constructor(
     private val repo: WordRepository
 ) : ViewModel() {
-
     var word = Word(expression = "")
     var collection = MutableLiveData(StudyCollection(name = ""))
 
@@ -81,6 +79,26 @@ class WordCollectionViewModel @Inject constructor(
         reloadWords()
     }
 
+    fun filterFavoriteCollections(favorite: Boolean) {
+        TODO()
+    }
+
+    fun filterFavoriteWords(favorite: Boolean) = viewModelScope.launch {
+        if (favorite) {
+            _allWords.value = repo.getFavoriteWords()
+        } else {
+            reloadWords()
+        }
+    }
+
+    fun filterLearnedWords(learned: Boolean) = viewModelScope.launch {
+        if (learned) {
+            reloadWords()
+        } else {
+            _allWords.value = repo.getLearnedWords()
+        }
+    }
+
     private fun getAllWordsInStudyCollection(collection: StudyCollection) = viewModelScope.launch {
         _allWords.value = repo.getWordsInCollection(collection)
     }
@@ -98,10 +116,14 @@ class WordCollectionViewModel @Inject constructor(
     }
 
     private suspend fun reloadWords() {
-        Log.v("VIEWMODEL", "reload words")
         if (collection.value != null && collection.value!!.collectionId != null) {
             _allWords.value = (repo.getWordsInCollection(collection.value!!))
         }
-        Log.v("VIEWMODEL", "new data loaded")
+    }
+
+    private suspend fun reloadCollections() {
+        if (collection.value != null && collection.value!!.collectionId != null) {
+            _allCollections.value = repo.getAllCollections()
+        }
     }
 }

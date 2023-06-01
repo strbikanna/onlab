@@ -27,6 +27,9 @@ interface WordDao {
     @Query("SELECT * FROM Word WHERE wordId = :id")
     suspend fun getById(id: Long): Word
 
+    @Query("SELECT * FROM Word WHERE expression = :exp")
+    suspend fun getByExpression(exp: String): Word?
+
     @Transaction
     @Query("SELECT * FROM Word WHERE wordId = :id")
     suspend fun getOneWithDefinitionsById(id: Long): WordWithDefinitions
@@ -40,10 +43,10 @@ interface WordDao {
     suspend fun getAllWithDefinitionsOrdered(): List<WordWithDefinitions>
 
     @Query("SELECT * FROM Word WHERE learned = :learned")
-    suspend fun getLearned(learned: Boolean = true): List<Word>
+    suspend fun getLearned(learned: Boolean = true): List<WordWithDefinitions>
 
     @Query("SELECT * FROM Word WHERE favorite = :favorite")
-    suspend fun getFavorites(favorite: Boolean = true): List<Word>
+    suspend fun getFavorites(favorite: Boolean = true): List<WordWithDefinitions>
 
 
     @Transaction

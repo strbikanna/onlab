@@ -1,4 +1,4 @@
-package com.example.languagelearningapp.ui.screens.collections_screen.components
+package com.example.languagelearningapp.ui.common
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
