@@ -65,8 +65,8 @@ class WordRepository @Inject constructor(
     }
 
     suspend fun updateWord(wordWithDefinition: WordWithDefinitions) {
-        val word = wordWithDefinition.word
-        if (word.wordId == null) {
+        val word = wordDao.getByExpression(wordWithDefinition.word.expression)
+        if (word == null) {
             addWord(wordWithDefinition)
             return
         }
@@ -74,12 +74,12 @@ class WordRepository @Inject constructor(
 
         wordWithDefinition.definitions.forEach {
             if (it.definitionId == null) {
-                addDefinition(it, word.wordId)
+                addDefinition(it, word.wordId!!)
             } else {
                 defDao.update(it)
             }
         }
-        val oldDefinitions = wordDao.getOneWithDefinitionsById(word.wordId).definitions
+        val oldDefinitions = wordDao.getOneWithDefinitionsById(word.wordId!!).definitions
         oldDefinitions.forEach { def ->
             if (wordWithDefinition.definitions.find { it.definitionId == def.definitionId } == null) {
                 wordDefRefDao.deleteByDefinitionId(def.definitionId!!)
@@ -87,12 +87,16 @@ class WordRepository @Inject constructor(
         }
     }
 
-    suspend fun getFavoriteWords(): List<WordWithDefinitions> {
-        return wordDao.getFavorites(true)
+    suspend fun updateCollection(collection: StudyCollection) {
+        collDao.update(collection)
     }
 
-    suspend fun getLearnedWords(): List<WordWithDefinitions> {
-        return wordDao.getLearned(true)
+    suspend fun getFavoriteWordsInCollection(collId: Long): List<WordWithDefinitions> {
+        return wordDao.getFavoritesInCollection(collId, true)
+    }
+
+    suspend fun getLearnedWordsInCollection(collId: Long): List<WordWithDefinitions> {
+        return wordDao.getLearnedInCollection(collId, true)
     }
 
     suspend fun deleteWord(word: Word) {
@@ -116,8 +120,7 @@ class WordRepository @Inject constructor(
     suspend fun getCollectionById(id: Long) = collDao.getById(id)
     suspend fun addWordToCollection(word: WordWithDefinitions, collection: StudyCollection) {
         val wordId: Long
-        if (word.word.wordId != null) {
-            wordId = word.word.wordId!!
+        if (word.word.wordId != null || existsWord(word.word)) {
             updateWord(word)
             return
         } else {

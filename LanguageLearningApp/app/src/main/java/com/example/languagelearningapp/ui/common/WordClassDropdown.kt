@@ -2,57 +2,62 @@ package com.example.languagelearningapp.ui.common
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
+import com.example.languagelearningapp.R
+import com.example.languagelearningapp.model.Word
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun Dropdown(
-    onChosen: (String) -> Unit,
-    options: List<String>,
-    label: String = "",
+fun WordClassDropdown(
+    setWordClass: (Word.WordClass) -> Unit,
+    initialWordClass: Word.WordClass? = null,
     modifier: Modifier = Modifier
 ) {
-
     var isExpanded by remember { mutableStateOf(false) }
 
-    var selectedValue by remember { mutableStateOf("") }
+    val wordClasses = Word.WordClass.values()
+
+    var selectedValue by remember { mutableStateOf(initialWordClass?.name ?: "") }
 
     val icon = if (isExpanded)
         Icons.Default.KeyboardArrowUp
     else
         Icons.Filled.KeyboardArrowDown
 
-    Column(modifier = modifier) {
+    Column {
         OutlinedTextField(
             value = selectedValue,
             onValueChange = { selectedValue = it },
-            //modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth(),
 
-            label = { label },
+            label = { Text(stringResource(R.string.wordClassLabel)) },
             trailingIcon = {
                 Icon(icon, "",
                     Modifier.clickable { isExpanded = !isExpanded })
-            }
+            },
+            readOnly = true
         )
         DropdownMenu(
             expanded = isExpanded,
             onDismissRequest = { isExpanded = false },
         ) {
-            options.forEach { opt ->
+            wordClasses.forEach { wc ->
                 DropdownMenuItem(onClick = {
-                    selectedValue = opt
+                    selectedValue = wc.name
                     isExpanded = false
-                    onChosen(opt)
+                    setWordClass(wc)
                 }, text = {
-                    Text(text = opt)
+                    Text(text = wc.name)
                 })
             }
-
         }
     }
 }

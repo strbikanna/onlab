@@ -8,12 +8,12 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Colorize
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.SmallFloatingActionButton
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -31,9 +31,9 @@ fun HighlightColorChooser(
         horizontalArrangement = Arrangement.spacedBy(10.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        val color1 = MaterialTheme.colors.primaryVariant
-        val color2 = MaterialTheme.colors.secondaryVariant
-        val color3 = MaterialTheme.colors.onSurface
+        val color1 = MaterialTheme.colorScheme.primary
+        val color2 = MaterialTheme.colorScheme.primaryContainer
+        val color3 = MaterialTheme.colorScheme.tertiaryContainer
         val buttonModifier = Modifier
             .size(40.dp)
         val buttonShape = CircleShape
@@ -84,7 +84,7 @@ fun ColorPicker(
                 onColorChoose = { color -> onColorChoose(color) },
             )
         }
-        OutlinedButton(
+        SmallFloatingActionButton(
             onClick = { expanded = !expanded },
             //modifier = Modifier.fillMaxHeight()
         ) {

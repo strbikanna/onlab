@@ -1,6 +1,5 @@
 package com.example.languagelearningapp.ui.screens.collections_detailed_screen.components
 
-import androidx.compose.material.Icon
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*

@@ -1,6 +1,7 @@
 package com.example.languagelearningapp.database
 
 import android.content.Context
+import androidx.room.AutoMigration
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
@@ -13,8 +14,13 @@ import com.example.languagelearningapp.model.*
         StudyCollection::class,
         WordCollectionCrossRef::class,
         WordDefinitionCrossRef::class],
-    version = 1
+    version = 2,
+    autoMigrations = [
+        AutoMigration(from = 1, to = 2)
+    ],
+    exportSchema = true
 )
+@androidx.room.TypeConverters(TypeConverters::class)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun wordDao(): WordDao
     abstract fun definitionDao(): DefinitionDao

@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModel
 import com.google.mlkit.vision.common.InputImage
 import com.google.mlkit.vision.common.internal.ImageConvertUtils
 import com.google.mlkit.vision.text.Text
+import com.google.mlkit.vision.text.Text.Element
 import com.google.mlkit.vision.text.TextRecognition
 import com.google.mlkit.vision.text.latin.TextRecognizerOptions
 
@@ -21,6 +22,7 @@ class TextRecognizerViewModel : ViewModel() {
             processImage()
         }
     val resultText: MutableLiveData<TextOrError> = MutableLiveData()
+    var chosenElement: MutableLiveData<Element?> = MutableLiveData()
     var recognizer = TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS)
 
     fun getImageToShow(inputImage: InputImage): ImageBitmap {
@@ -29,11 +31,11 @@ class TextRecognizerViewModel : ViewModel() {
         return bitmap
     }
 
-    fun getWordByPosition(position: Offset): String {
-        var word = ""
+    fun getWordByPosition(position: Offset) {
+        var word: Element? = null
         for (block in resultText.value!!.text!!.textBlocks) {
             for (line in block.lines) {
-                var found = line.elements.find { element ->
+                val found = line.elements.find { element ->
                     if (element.boundingBox != null) {
                         element.boundingBox!!.contains(position.x.toInt(), position.y.toInt())
                     } else {
@@ -41,15 +43,15 @@ class TextRecognizerViewModel : ViewModel() {
                     }
                 }
                 if (found != null) {
-                    word = found.text
+                    word = found
                     break
                 }
             }
-            if (word != "")
+            if (word != null)
                 break
         }
-        Log.d("TextModel", "Word found: $word")
-        return word
+        chosenElement.value = word
+        Log.d("TextModel", "Word found: ${word?.text}")
     }
 
     private fun processImage() {

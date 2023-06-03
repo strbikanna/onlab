@@ -6,10 +6,9 @@ import androidx.compose.foundation.gestures.detectHorizontalDragGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
-import androidx.compose.material3.Card
+import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -72,13 +71,13 @@ private fun WordWithDefDetailedCard(
             ) {
                 Text(
                     text = wordWithDefinitions.word.expression,
-                    style = MaterialTheme.typography.body1,
+                    style = MaterialTheme.typography.bodyLarge,
                     modifier = Modifier.padding(horizontal = 20.dp)
                 )
-                if (expanded) {
+                if (expanded && wordWithDefinitions.word.wordClass != null) {
                     Text(
                         text = wordWithDefinitions.word.wordClass?.name?.lowercase() ?: "",
-                        style = MaterialTheme.typography.body2,
+                        style = MaterialTheme.typography.bodyLarge,
                         modifier = Modifier.padding(horizontal = 20.dp)
                     )
                 }
@@ -87,7 +86,7 @@ private fun WordWithDefDetailedCard(
             if (!expanded) {
                 Text(
                     text = wordWithDefinitions.definitions[0].description,
-                    style = MaterialTheme.typography.body1,
+                    style = MaterialTheme.typography.bodyLarge,
                     modifier = Modifier
                         .padding(horizontal = 20.dp)
                         .weight(1f)
@@ -100,7 +99,7 @@ private fun WordWithDefDetailedCard(
                     items(wordWithDefinitions.definitions) {
                         Text(
                             text = it.description,
-                            style = MaterialTheme.typography.body1,
+                            style = MaterialTheme.typography.bodyLarge,
                             modifier = Modifier
                                 .padding(horizontal = 20.dp)
                                 .weight(1f)
@@ -118,7 +117,7 @@ private fun WordWithDefDetailedCard(
                 Icon(
                     icon,
                     contentDescription = "expand",
-                    tint = MaterialTheme.colors.primaryVariant,
+                    tint = MaterialTheme.colorScheme.secondary,
                 )
             }
 

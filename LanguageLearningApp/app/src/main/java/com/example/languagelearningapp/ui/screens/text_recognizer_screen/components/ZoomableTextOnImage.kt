@@ -94,6 +94,5 @@ fun ZoomableTextOnImage(
                     .heightIn(max = 60.dp)
             )
         }
-
     }
 }

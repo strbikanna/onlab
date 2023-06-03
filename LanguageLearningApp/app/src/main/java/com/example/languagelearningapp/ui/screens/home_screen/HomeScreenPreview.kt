@@ -20,14 +20,14 @@ import com.example.languagelearningapp.ui.common.AddButton
 import com.example.languagelearningapp.ui.common.BottomNavigationBar
 import com.example.languagelearningapp.ui.screens.home_screen.components.HomeHeader
 import com.example.languagelearningapp.ui.screens.home_screen.components.WordDefinitionCard
-import com.example.languagelearningapp.ui.theme.LanguageLearningAppTheme
+import com.example.languagelearningapp.ui.theme.AppTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Preview
 @Composable
 fun HomeScreenPreView(
 ) {
-    LanguageLearningAppTheme {
+    AppTheme {
         Scaffold(
             topBar = {
                 HomeHeader(

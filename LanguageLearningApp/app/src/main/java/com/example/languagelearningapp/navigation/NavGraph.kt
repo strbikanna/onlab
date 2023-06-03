@@ -76,9 +76,7 @@ fun NavGraph(
         ) {
             CameraScreen(
                 bottomBar = { createBottomBar(navController) },
-                topBar = { title ->
-                    HeaderWithTitle(title = title, onBackPressed = { navController.popBackStack() })
-                },
+                onBack = { navController.popBackStack() },
                 onCaptureSuccess = { imageId ->
                     navigateTo(navController, "${Screen.TextRecognizerScreen.route}/$imageId")
                 },

@@ -1,6 +1,6 @@
 package com.example.languagelearningapp.ui.permissions
 
-import androidx.compose.material.Text
+import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource

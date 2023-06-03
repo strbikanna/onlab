@@ -1,4 +1,4 @@
-package com.example.languagelearningapp.ui.screens.camera_screen.components
+package com.example.languagelearningapp.ui.common
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.expandVertically

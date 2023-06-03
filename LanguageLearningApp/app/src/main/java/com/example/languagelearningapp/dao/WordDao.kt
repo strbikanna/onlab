@@ -42,12 +42,6 @@ interface WordDao {
     @Query("SELECT * FROM Word ORDER BY expression ASC")
     suspend fun getAllWithDefinitionsOrdered(): List<WordWithDefinitions>
 
-    @Query("SELECT * FROM Word WHERE learned = :learned")
-    suspend fun getLearned(learned: Boolean = true): List<WordWithDefinitions>
-
-    @Query("SELECT * FROM Word WHERE favorite = :favorite")
-    suspend fun getFavorites(favorite: Boolean = true): List<WordWithDefinitions>
-
 
     @Transaction
     @Query(
@@ -68,6 +62,34 @@ interface WordDao {
     )
     @RewriteQueriesToDropUnusedColumns
     suspend fun getAllByCollection(collectionId: Long): List<WordWithDefinitions>
+
+    @Transaction
+    @Query(
+        "SELECT * FROM Word " +
+                "INNER JOIN WordCollectionCrossRef ON WordCollectionCrossRef.wordId = Word.wordId " +
+                "INNER JOIN StudyCollection ON WordCollectionCrossRef.collectionId = StudyCollection.collectionId " +
+                "WHERE StudyCollection.collectionID = :collectionId " +
+                "AND Word.favorite = :favorite"
+    )
+    @RewriteQueriesToDropUnusedColumns
+    suspend fun getFavoritesInCollection(
+        collectionId: Long,
+        favorite: Boolean
+    ): List<WordWithDefinitions>
+
+    @Transaction
+    @Query(
+        "SELECT * FROM Word " +
+                "INNER JOIN WordCollectionCrossRef ON WordCollectionCrossRef.wordId = Word.wordId " +
+                "INNER JOIN StudyCollection ON WordCollectionCrossRef.collectionId = StudyCollection.collectionId " +
+                "WHERE StudyCollection.collectionID = :collectionId " +
+                "AND Word.learned = :learned"
+    )
+    @RewriteQueriesToDropUnusedColumns
+    suspend fun getLearnedInCollection(
+        collectionId: Long,
+        learned: Boolean
+    ): List<WordWithDefinitions>
 
     @Transaction
     @Query(

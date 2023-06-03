@@ -18,6 +18,7 @@ import java.util.*
 
 class ImagePersistViewModel : ViewModel() {
     private val format = Bitmap.CompressFormat.JPEG
+    var chosenImageUri = Uri.EMPTY
     fun loadImage(context: Context, uri: Uri): ImageBitmap {
         val bitmap: ImageBitmap
         context.contentResolver

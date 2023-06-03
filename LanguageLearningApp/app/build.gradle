@@ -4,6 +4,21 @@ plugins {
     id 'kotlin-kapt'
     id 'com.google.dagger.hilt.android'
 }
+class RoomSchemaArgProvider implements CommandLineArgumentProvider {
+
+    @InputDirectory
+    @PathSensitive(PathSensitivity.RELATIVE)
+    File schemaDir
+
+    RoomSchemaArgProvider(File schemaDir) {
+        this.schemaDir = schemaDir
+    }
+
+    @Override
+    Iterable<String> asArguments() {
+        return ["-Aroom.schemaLocation=${schemaDir.path}".toString()]
+    }
+}
 
 android {
     namespace 'com.example.languagelearningapp'
@@ -19,6 +34,13 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
             useSupportLibrary true
+        }
+        javaCompileOptions {
+            annotationProcessorOptions {
+                compilerArgumentProviders(
+                        new RoomSchemaArgProvider(new File(projectDir, "schemas"))
+                )
+            }
         }
     }
 
@@ -50,7 +72,7 @@ android {
 
 dependencies {
     //icons
-    implementation 'androidx.compose.material:material-icons-extended:1.5.0-alpha02'
+    implementation 'androidx.compose.material:material-icons-extended:1.5.0-beta01'
 
     //room
     implementation "androidx.room:room-runtime:$room_version"
