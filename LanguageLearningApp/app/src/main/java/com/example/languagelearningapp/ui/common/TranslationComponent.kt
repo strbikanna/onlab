@@ -23,15 +23,26 @@ import com.example.languagelearningapp.translation.TranslatorViewModel
 fun TranslationComponent(
     onTranslationResult: (String) -> Unit,
     inputText: String = "hello",
-    sourceLanguage: Language,
+    sourceLanguage: Language?,
     targetLanguage: Language?,
     translationViewModel: TranslatorViewModel = hiltViewModel()
 ) {
-    translationViewModel.sourceLanguage = sourceLanguage
+    sourceLanguage?.let {
+        translationViewModel.sourceLanguage = it
+    }
     targetLanguage?.let {
         translationViewModel.targetLanguage = it
     }
-    var targetChosen by remember { mutableStateOf(targetLanguage != null) }
+    val targetValid by remember {
+        mutableStateOf(
+            targetLanguage != null && translationViewModel.existsLanguage(targetLanguage)
+        )
+    }
+    val sourceValid by remember {
+        mutableStateOf(
+            sourceLanguage != null && translationViewModel.existsLanguage(sourceLanguage)
+        )
+    }
     var enabled by remember { mutableStateOf(false) }
     val translatedText by translationViewModel.translatedText.observeAsState()
     if (enabled) {
@@ -39,9 +50,26 @@ fun TranslationComponent(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceEvenly
         ) {
-            Text(sourceLanguage.displayName)
+            if (sourceValid) {
+                Text(translationViewModel.sourceLanguage.displayName)
+            } else {
+                Dropdown(
+                    onChosen = { chosen ->
+                        val chosenLang =
+                            translationViewModel.availableLanguages.find { lang -> lang.displayName == chosen }
+                        chosenLang?.let {
+                            translationViewModel.sourceLanguage = it
+                        }
+                    },
+                    options = translationViewModel.availableLanguages.map { it.displayName },
+                    label = stringResource(R.string.sourceLanguageLabel),
+                    modifier = Modifier
+                        .weight(1f)
+                        .padding(start = 2.dp)
+                )
+            }
             Icon(Icons.Default.ArrowRight, "")
-            if (targetChosen) {
+            if (targetValid) {
                 Text(translationViewModel.targetLanguage.displayName)
             } else {
                 Dropdown(
@@ -59,12 +87,12 @@ fun TranslationComponent(
                         .padding(start = 2.dp)
                 )
             }
-
         }
         OutlinedTextField(
             value = translatedText?.result ?: "...",
             onValueChange = {},
             readOnly = true,
+            modifier = Modifier.padding(vertical = 3.dp)
         )
         Button(onClick = { translationViewModel.translate(inputText) }) {
             Text(stringResource(R.string.translateButton))
@@ -80,4 +108,5 @@ fun TranslationComponent(
         }
     }
 }
+
 

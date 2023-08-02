@@ -23,7 +23,7 @@ class TextRecognizerViewModel : ViewModel() {
         }
     val resultText: MutableLiveData<TextOrError> = MutableLiveData()
     var chosenElement: MutableLiveData<Element?> = MutableLiveData()
-    var recognizer = TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS)
+    private var recognizer = TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS)
 
     fun getImageToShow(inputImage: InputImage): ImageBitmap {
         val bitmap = ImageConvertUtils.getInstance().getUpRightBitmap(inputImage).asImageBitmap()
