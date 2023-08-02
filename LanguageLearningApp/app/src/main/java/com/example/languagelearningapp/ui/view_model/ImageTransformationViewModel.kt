@@ -14,7 +14,6 @@ class ImageTransformationViewModel : ViewModel() {
     var scaleFactorY = MutableLiveData<Float>(1F)
     var zoomScale = MutableLiveData<Float>(1F)
     var zoomOffset = MutableLiveData<Offset>(Offset.Zero)
-    var initialImageCenterPosition = MutableLiveData<Offset>()
     var initialImagePosition = Offset.Zero
     var imageSize = IntSize(0, 0)
     private val maxScale = 3F

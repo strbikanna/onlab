@@ -19,11 +19,13 @@ class TranslatorViewModel @Inject constructor() : ViewModel() {
 
     var sourceLanguage: Language = Language(TranslateLanguage.ENGLISH)
         set(value) {
+            if (!existsLanguage(value)) return
             field = value
             downloadLanguage(value)
         }
     var targetLanguage: Language = Language(TranslateLanguage.HUNGARIAN)
         set(value) {
+            if (!existsLanguage(value)) return
             field = value
             downloadLanguage(value)
         }
@@ -39,7 +41,7 @@ class TranslatorViewModel @Inject constructor() : ViewModel() {
 
     val sourceText = String()
     val translatedText = MutableLiveData<ResultOrError>()
-    val availableModels = MutableLiveData<List<String>>()
+    private val availableModels = MutableLiveData<List<String>>()
     private val translators =
         object : LruCache<TranslatorOptions, Translator>(TRANSLATOR_COUNT) {
             override fun create(options: TranslatorOptions): Translator {
@@ -73,7 +75,12 @@ class TranslatorViewModel @Inject constructor() : ViewModel() {
             }
     }
 
+    fun existsLanguage(language: Language): Boolean {
+        return TranslateLanguage.fromLanguageTag(language.languageCode) != null
+    }
+
     private fun downloadLanguage(language: Language) {
+        if (!existsLanguage(language)) return
         val model = getModel(TranslateLanguage.fromLanguageTag(language.languageCode)!!)
         var downloadTask: Task<Void>?
         if (pendingDownloads.containsKey(language.languageCode)) {

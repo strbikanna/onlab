@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">LanguageLearningApp</string>
+    <string name="app_name">PhotoWord</string>
     <string name="homePageTitle">Home</string>
     <string name="HomeIconText">Home</string>
     <string name="PhotoIconText">Photo</string>
