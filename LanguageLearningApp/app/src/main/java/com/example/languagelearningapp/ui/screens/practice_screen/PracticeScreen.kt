@@ -4,10 +4,10 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBackIos
 import androidx.compose.material.icons.filled.ArrowForwardIos
+import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
@@ -21,6 +21,7 @@ import com.example.languagelearningapp.ui.view_model.PracticeScreenViewModel
 import kotlinx.coroutines.delay
 import kotlin.math.min
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PracticeScreen(
     bottomBar: @Composable () -> Unit,
@@ -46,7 +47,7 @@ fun PracticeScreen(
         ) {
             Text(
                 text = "${min(actualItemIndex + 1, allItemsNumber)}/$allItemsNumber",
-                style = MaterialTheme.typography.h6,
+                style = MaterialTheme.typography.headlineSmall,
                 modifier = Modifier
                     .align(Alignment.End)
                     .padding(25.dp)
@@ -97,7 +98,7 @@ fun PracticeScreen(
                 } else {
                     Text(
                         text = stringResource(R.string.finish_practice),
-                        style = MaterialTheme.typography.h4,
+                        style = MaterialTheme.typography.headlineMedium,
                         modifier = Modifier.padding(horizontal = 50.dp, vertical = 100.dp)
                     )
                 }
@@ -140,8 +141,8 @@ private fun Toast(
         Card(
             modifier = modifier,
             shape = MaterialTheme.shapes.small,
-            backgroundColor = MaterialTheme.colors.secondary,
-            elevation = 10.dp
+            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.secondary),
+            elevation = CardDefaults.cardElevation(defaultElevation = 10.dp)
         ) {
             Text(
                 text = text,

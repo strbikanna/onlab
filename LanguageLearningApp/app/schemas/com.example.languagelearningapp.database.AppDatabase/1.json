@@ -1,0 +1,220 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 1,
+    "identityHash": "54c03040c018f0f621bbcdf27c2de1f1",
+    "entities": [
+      {
+        "tableName": "Word",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`wordId` INTEGER PRIMARY KEY AUTOINCREMENT, `expression` TEXT NOT NULL, `wordClass` TEXT, `favorite` INTEGER NOT NULL, `learned` INTEGER NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "wordId",
+            "columnName": "wordId",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "expression",
+            "columnName": "expression",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "wordClass",
+            "columnName": "wordClass",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "favorite",
+            "columnName": "favorite",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "learned",
+            "columnName": "learned",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "wordId"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_Word_expression",
+            "unique": true,
+            "columnNames": [
+              "expression"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_Word_expression` ON `${TABLE_NAME}` (`expression`)"
+          }
+        ],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "Definition",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`definitionId` INTEGER PRIMARY KEY AUTOINCREMENT, `description` TEXT NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "definitionId",
+            "columnName": "definitionId",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "description",
+            "columnName": "description",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "definitionId"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_Definition_description",
+            "unique": true,
+            "columnNames": [
+              "description"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_Definition_description` ON `${TABLE_NAME}` (`description`)"
+          }
+        ],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "StudyCollection",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`collectionId` INTEGER PRIMARY KEY AUTOINCREMENT, `name` TEXT NOT NULL, `favorite` INTEGER NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "collectionId",
+            "columnName": "collectionId",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "favorite",
+            "columnName": "favorite",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "collectionId"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_StudyCollection_collectionId",
+            "unique": false,
+            "columnNames": [
+              "collectionId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_StudyCollection_collectionId` ON `${TABLE_NAME}` (`collectionId`)"
+          }
+        ],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "WordCollectionCrossRef",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`wordId` INTEGER NOT NULL, `collectionId` INTEGER NOT NULL, PRIMARY KEY(`wordId`, `collectionId`))",
+        "fields": [
+          {
+            "fieldPath": "wordId",
+            "columnName": "wordId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "collectionId",
+            "columnName": "collectionId",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "wordId",
+            "collectionId"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_WordCollectionCrossRef_collectionId",
+            "unique": false,
+            "columnNames": [
+              "collectionId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_WordCollectionCrossRef_collectionId` ON `${TABLE_NAME}` (`collectionId`)"
+          }
+        ],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "WordDefinitionCrossRef",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`wordId` INTEGER NOT NULL, `definitionId` INTEGER NOT NULL, PRIMARY KEY(`wordId`, `definitionId`))",
+        "fields": [
+          {
+            "fieldPath": "wordId",
+            "columnName": "wordId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "definitionId",
+            "columnName": "definitionId",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "wordId",
+            "definitionId"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_WordDefinitionCrossRef_definitionId",
+            "unique": false,
+            "columnNames": [
+              "definitionId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_WordDefinitionCrossRef_definitionId` ON `${TABLE_NAME}` (`definitionId`)"
+          }
+        ],
+        "foreignKeys": []
+      }
+    ],
+    "views": [],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '54c03040c018f0f621bbcdf27c2de1f1')"
+    ]
+  }
+}

@@ -62,6 +62,7 @@ class WordCollectionViewModel @Inject constructor(
 
     fun addCollection(collection: StudyCollection) = viewModelScope.launch {
         repo.addCollection(collection)
+        reloadCollections()
     }
 
     fun updateWord(word: Word) = viewModelScope.launch {
@@ -79,13 +80,28 @@ class WordCollectionViewModel @Inject constructor(
         reloadWords()
     }
 
-    fun filterFavoriteCollections(favorite: Boolean) {
-        TODO()
+    fun deleteCollection() = viewModelScope.launch {
+        collection.value?.collectionId?.let {
+            repo.deleteCollection(collection.value!!)
+            reloadCollections()
+        }
+
+    }
+
+    fun updateCollection(updatedCollection: StudyCollection) = viewModelScope.launch {
+        updatedCollection.collectionId?.let {
+            repo.updateCollection(updatedCollection)
+            reloadCollections()
+        }
     }
 
     fun filterFavoriteWords(favorite: Boolean) = viewModelScope.launch {
         if (favorite) {
-            _allWords.value = repo.getFavoriteWords()
+            _allWords.value = collection.value?.collectionId?.let {
+                repo.getFavoriteWordsInCollection(
+                    it
+                )
+            }
         } else {
             reloadWords()
         }
@@ -95,7 +111,11 @@ class WordCollectionViewModel @Inject constructor(
         if (learned) {
             reloadWords()
         } else {
-            _allWords.value = repo.getLearnedWords()
+            _allWords.value = collection.value?.collectionId?.let {
+                repo.getLearnedWordsInCollection(
+                    it
+                )
+            }
         }
     }
 

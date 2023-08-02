@@ -2,7 +2,6 @@ package com.example.languagelearningapp.ui.screens.home_screen
 
 
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.Scaffold
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState

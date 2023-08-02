@@ -2,13 +2,9 @@ package com.example.languagelearningapp.ui.screens.text_recognizer_screen
 
 import android.util.Log
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.Scaffold
-import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material3.LinearProgressIndicator
+import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
@@ -19,12 +15,14 @@ import com.example.languagelearningapp.R
 import com.example.languagelearningapp.model.CapturedImageCache
 import com.example.languagelearningapp.model.Word
 import com.example.languagelearningapp.model.WordWithDefinitions
+import com.example.languagelearningapp.translation.Language
 import com.example.languagelearningapp.ui.common.AddWordToCollectionDialog
-import com.example.languagelearningapp.ui.screens.camera_screen.components.ErrorWarnText
+import com.example.languagelearningapp.ui.common.ErrorWarnText
 import com.example.languagelearningapp.ui.screens.text_recognizer_screen.components.ZoomableTextOnImage
 import com.example.languagelearningapp.ui.view_model.TextRecognizerViewModel
 
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 @androidx.camera.core.ExperimentalGetImage
 fun TextRecognizerScreen(
@@ -42,7 +40,6 @@ fun TextRecognizerScreen(
     Log.d("TEXTVIEW", "Inputimage size: ${inputImage.width}, ${inputImage.height}")
 
     val recognizedText by textViewModel.resultText.observeAsState()
-    var chosenText by remember { mutableStateOf("") }
     var isNewTextChosen by remember { mutableStateOf(false) }
 
     Scaffold(
@@ -89,21 +86,26 @@ fun TextRecognizerScreen(
                 text = recognizedText?.text,
                 image = textViewModel.getImageToShow(inputImage),
                 onWordClicked = { position ->
-                    chosenText = textViewModel.getWordByPosition(position)
-                    isNewTextChosen = true
+                    textViewModel.getWordByPosition(position)
+                    if (textViewModel.chosenElement.value != null)
+                        isNewTextChosen = true
                 },
             )
         }
     }
-    val initialWord = WordWithDefinitions(
-        word = Word(expression = chosenText),
-        definitions = listOf()
-    )
-    AddWordToCollectionDialog(
-        openDialog = isNewTextChosen,
-        closeDialog = { isNewTextChosen = false },
-        initialWordWithDefinitions = initialWord
-    )
+    if (isNewTextChosen) {
+        val initialWord = WordWithDefinitions(
+            word = Word(expression = textViewModel.chosenElement.value!!.text),
+            definitions = listOf()
+        )
+        AddWordToCollectionDialog(
+            openDialog = isNewTextChosen,
+            closeDialog = { isNewTextChosen = false },
+            initialWordWithDefinitions = initialWord,
+            sourceLanguage = Language(textViewModel.chosenElement.value!!.recognizedLanguage)
+        )
+    }
+
 }
 
 

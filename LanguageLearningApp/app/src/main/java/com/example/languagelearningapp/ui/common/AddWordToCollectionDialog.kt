@@ -5,11 +5,11 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
+import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
@@ -24,16 +24,20 @@ import com.example.languagelearningapp.R
 import com.example.languagelearningapp.model.Definition
 import com.example.languagelearningapp.model.StudyCollection
 import com.example.languagelearningapp.model.WordWithDefinitions
+import com.example.languagelearningapp.translation.Language
 import com.example.languagelearningapp.ui.view_model.WordCollectionViewModel
+import com.google.mlkit.nl.translate.TranslateLanguage
 import kotlinx.coroutines.job
 
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddWordToCollectionDialog(
     openDialog: Boolean,
     closeDialog: () -> Unit,
     initialWordWithDefinitions: WordWithDefinitions,
     defaultCollection: StudyCollection? = null,
+    sourceLanguage: Language = Language(TranslateLanguage.ENGLISH),
     viewModel: WordCollectionViewModel = hiltViewModel()
 ) {
     if (!openDialog)
@@ -70,7 +74,7 @@ fun AddWordToCollectionDialog(
                 topBar = {
                     Text(
                         text = stringResource(R.string.AddWordDialogTitle),
-                        style = MaterialTheme.typography.body1,
+                        style = MaterialTheme.typography.bodyLarge,
                         textAlign = TextAlign.Center,
                         modifier = Modifier
                             .fillMaxWidth()
@@ -81,8 +85,18 @@ fun AddWordToCollectionDialog(
                     .fillMaxWidth(),
                 bottomBar = {
                     Row(
+                        modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.End,
                     ) {
+                        OutlinedButton(
+                            onClick = closeDialog,
+                            //colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.secondary),
+                            modifier = Modifier.padding(start = 15.dp, end = 15.dp)
+                        ) {
+                            Text(
+                                text = stringResource(R.string.cancel)
+                            )
+                        }
                         Button(
                             onClick = {
                                 definitions.add(translatedDefinition)
@@ -99,20 +113,11 @@ fun AddWordToCollectionDialog(
                                     invalidData = true
                                 }
                             },
-                            colors = ButtonDefaults.buttonColors(backgroundColor = MaterialTheme.colors.primaryVariant),
+                            //colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primaryVariant),
                             modifier = Modifier.padding(start = 15.dp, end = 15.dp)
                         ) {
                             Text(
                                 text = stringResource(R.string.Save),
-                            )
-                        }
-                        Button(
-                            onClick = closeDialog,
-                            colors = ButtonDefaults.buttonColors(backgroundColor = MaterialTheme.colors.secondary),
-                            modifier = Modifier.padding(start = 15.dp, end = 15.dp)
-                        ) {
-                            Text(
-                                text = stringResource(R.string.cancel)
                             )
                         }
                     }
@@ -170,7 +175,7 @@ fun AddWordToCollectionDialog(
                             onClick = {
                                 definitions.add(Definition(description = ""))
                             },
-                            colors = ButtonDefaults.textButtonColors(contentColor = MaterialTheme.colors.primaryVariant)
+                            colors = ButtonDefaults.textButtonColors(contentColor = MaterialTheme.colorScheme.secondary)
                         ) {
                             Text(stringResource(R.string.addDefinition))
                         }
@@ -179,7 +184,9 @@ fun AddWordToCollectionDialog(
                                 translatedDefinition =
                                     translatedDefinition.copy(description = translation)
                             },
-                            inputText = word.expression
+                            inputText = word.expression,
+                            sourceLanguage = defaultCollection?.sourceLanguage ?: sourceLanguage,
+                            targetLanguage = defaultCollection?.targetLanguage
                         )
                     }
                 }
@@ -195,6 +202,7 @@ fun AddWordToCollectionDialog(
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CollectionDropdown(
     collections: List<StudyCollection>,
@@ -232,9 +240,10 @@ fun CollectionDropdown(
                     selectedValue = coll.name
                     isExpanded = false
                     onSelected(coll)
-                }) {
-                    Text(text = coll.name)
-                }
+                },
+                    text = {
+                        Text(text = coll.name)
+                    })
             }
         }
     }

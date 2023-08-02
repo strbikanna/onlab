@@ -3,13 +3,13 @@ package com.example.languagelearningapp.ui.screens.collections_detailed_screen.c
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.outlined.StarOutline
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -32,14 +32,14 @@ fun ActionsRow(
             Icon(
                 Icons.Default.Delete,
                 contentDescription = "delete",
-                tint = MaterialTheme.colors.primaryVariant,
+                tint = MaterialTheme.colorScheme.secondary,
             )
         }
         IconButton(onClick = { onEdit() }) {
             Icon(
                 Icons.Default.Edit,
                 contentDescription = "edit",
-                tint = MaterialTheme.colors.primaryVariant,
+                tint = MaterialTheme.colorScheme.secondary,
             )
         }
         IconButton(onClick = {
@@ -52,7 +52,7 @@ fun ActionsRow(
             Icon(
                 icon,
                 contentDescription = "favorite",
-                tint = MaterialTheme.colors.primaryVariant,
+                tint = MaterialTheme.colorScheme.secondary,
             )
         }
     }

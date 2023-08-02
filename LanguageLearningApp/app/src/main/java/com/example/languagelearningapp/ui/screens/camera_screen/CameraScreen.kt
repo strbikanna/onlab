@@ -8,17 +8,18 @@ import androidx.camera.view.PreviewView
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.FabPosition
-import androidx.compose.material.Icon
-import androidx.compose.material.Scaffold
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Circle
-import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.outlined.Circle
+import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.languagelearningapp.model.CapturedImageCache
@@ -29,11 +30,12 @@ import com.example.languagelearningapp.ui.view_model.CameraViewModel
 private const val imageID = "pic0011"
 
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 @androidx.annotation.OptIn(androidx.camera.core.ExperimentalGetImage::class)
 fun CameraScreen(
     bottomBar: @Composable () -> Unit,
-    topBar: @Composable (title: String) -> Unit,
+    onBack: () -> Unit,
     onCaptureSuccess: (String) -> Unit,
     viewModel: CameraViewModel = hiltViewModel()
 ) {
@@ -45,21 +47,29 @@ fun CameraScreen(
         PreviewView(context)
     }
     val captureSuccess by viewModel.captureSuccess.observeAsState()
-    var reloadRequested by remember { mutableStateOf(false) }
 
     LaunchedEffect(previewView) {
         viewModel.startCameraOnSurface(previewView, lifecycleOwner, context)
     }
 
     Scaffold(
-        topBar = { topBar("Capture text") },
         bottomBar = { bottomBar() },
         floatingActionButton = {
-            FloatingActionButton(
+            IconButton(
                 onClick = {
                     viewModel.capturePicture(context)
-                }) {
-                Icon(Icons.Default.Circle, "")
+                },
+                colors = IconButtonDefaults.iconButtonColors(
+                    containerColor = Color.Transparent,
+                ),
+                modifier = Modifier.size(80.dp)
+            ) {
+                Icon(
+                    Icons.Outlined.Circle,
+                    "",
+                    modifier = Modifier.fillMaxSize(),
+                    tint = Color.White
+                )
             }
         },
         floatingActionButtonPosition = FabPosition.Center,
@@ -78,6 +88,16 @@ fun CameraScreen(
                 previewView
             }
         )
+        IconButton(
+            onClick = {
+                onBack()
+            },
+            colors = IconButtonDefaults.iconButtonColors(
+                contentColor = Color.White
+            )
+        ) {
+            Icon(Icons.Filled.ArrowBack, "backIcon")
+        }
     }
     if (captureSuccess == true && image != null) {
         CapturedImageCache.addImageProxy(imageID, image!!)

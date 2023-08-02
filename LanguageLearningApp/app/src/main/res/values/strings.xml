@@ -35,4 +35,7 @@
     <string name="add_coll_error_msg">Give a name to the collection</string>
     <string name="coll_name">Study set name</string>
     <string name="study_sets_title">Study Sets</string>
+    <string name="edit_collection">Rename Study Set</string>
+    <string name="delete">Delete</string>
+    <string name="study_set_languages">Specify the languages for the study set:</string>
 </resources>

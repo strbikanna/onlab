@@ -1,7 +1,5 @@
 package com.example.languagelearningapp.ui.common
 
-import androidx.compose.material.Icon
-import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.*
